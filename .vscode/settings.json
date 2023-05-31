@@ -1,5 +1,9 @@
 {
     "files.associations": {
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "algorithm": "cpp",
+        "vector": "cpp",
+        "cctype": "cpp",
+        "xlocale": "cpp"
     }
 }
