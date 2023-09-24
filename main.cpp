@@ -1,4 +1,5 @@
 #include<iostream>
+#include <cmath>
 using namespace std;
 
 //this project is for my training for cp - especially using c++
@@ -6,7 +7,7 @@ using namespace std;
 
 int main(){
 
-    
+    cout << floor(-4.3);
 
-return 0;
+    return 0;
 }
