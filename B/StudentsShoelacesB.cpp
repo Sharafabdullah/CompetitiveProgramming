@@ -1,4 +1,16 @@
-#include <bits/stdc++.h>
+// #include <bits/stdc++.h>
+#include<set>
+#include<vector>
+#include<deque>
+#include<list>
+#include<algorithm>
+#include <utility>
+#include<iterator>
+#include<iostream>
+#include<queue>
+#include<cmath>
+#include<sstream>
+// #include <something>
 using namespace std;
 
 #include <sstream>
@@ -60,7 +72,7 @@ int main()
             {
                 // p(j);
                 // p(v[j][0]);
-                q.push({j, v[j][0]});
+                q.push(std::make_pair(j, v[j][0]));
             }
         }
         if (!q.empty())
@@ -71,7 +83,8 @@ int main()
             t = q.front().second;
             q.pop();
             v[f].clear();
-            v[t].erase(find(v[t].begin(), v[t].end(), f));
+            auto it = find(v[t].begin(), v[t].end(), f);
+            v[t].erase(it);
         }
     }
     cout << cnt;
