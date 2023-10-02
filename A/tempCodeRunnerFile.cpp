@@ -1,1 +1,3 @@
-ok ? "YES" : "NO"
+
+    p(r);
+    p(ext.length());
