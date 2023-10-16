@@ -1,2 +1,2 @@
-
-        // p(can[i]);
+w) cout << i << "   ";
+    // cout << endl;
