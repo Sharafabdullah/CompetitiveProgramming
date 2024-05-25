@@ -60,11 +60,14 @@ const ll mod = 1e9 + 7;
 int N = 3e5, M = 10;
 int k,n,m;
 
+#include <ext/pb_ds/assoc_container.hpp> 
+#include <ext/pb_ds/tree_policy.hpp> 
+using namespace __gnu_pbds; 
+template<typename T>
+using ordered_set = tree<T, null_type,less<T>, rb_tree_tag,tree_order_statistics_node_update> ;
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    
     
 }
 

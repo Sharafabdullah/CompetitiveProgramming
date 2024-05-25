@@ -62,9 +62,13 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    int a,b,c,d;
+    cin>>a>>b>>c>>d;
+    if(a>b) swap(a,b);
+    if(c>d) swap(c,d);
+    if((c>a && c<b && d>b) || (d>a && d<b && c<a)){
+        cout<<"YES"<<endl;
+    }else cout<<"NO"<<endl;
     
 }
 
@@ -72,7 +76,7 @@ int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

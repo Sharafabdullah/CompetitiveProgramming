@@ -62,17 +62,31 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n;
+    string s; cin>>s;
+    int z =0;
+    for(char c: s) if(c=='0') z++;
+    int ln = s.length();
+    if(ln%2){
+        if(s[ln/2] == '1'){
+            cout<<"BOB"<<endl;
+        }
+        else{
+            if(z == 1) cout<<"BOB"<<endl;
+            else cout<<"ALICE"<<endl;
+        }
+    }
+    else{
+        // if(z%2) cout<<"ALICE"<<endl;
+        cout<<"BOB"<<endl;
+    }
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

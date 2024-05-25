@@ -60,12 +60,62 @@ const ll mod = 1e9 + 7;
 int N = 3e5, M = 10;
 int k,n,m;
 
+template<typename T>
+struct cmp {
+    bool operator()( T& p1,  T& p2)  {
+        return p1.second > p2.second;
+    }
+};
+
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    // auto cmp = [&](pi p1, pi p2){
+    //     return p1.second > p2.second;
+    // };
+    // vector<pi> v = {{3,1},{3,21},{0,321}};
+    // priority_queue<pi, deque<pi>, decltype(cmp)> pq(all(v));
+    // while(!pq.empty()){
+    //     deb(pq.top()); pq.pop();
+    // }
+    // auto cmpInt = [](int f,int s){return f>s;};
+    // set<int, decltype(cmpInt)> s(cmpInt); //! have to provide the lambda if used to order
+    // s.insert(3);
+    // s.insert(12);
+    // s.insert(5);
+    // for(int i: s) cout<<i<<" ";
+    // int sum = 0;
+    // for_each(all(s), [&](int i){sum=  i+1;});
+    // for(int i: s) cout<<i<<" ";
+    // deb(sum);
+    // cout<<endl;
+
+    priority_queue<pi, deque<pi>, cmp<pi>> pq;
+    cin>>n; 
+    int a,b, mx = 1;
+    vector<pi> v; rep(i,0,n) {cin>>a>>b; v.pb({a,b});};
+    sort(all(v), [](pi f,pi s){return f.first<s.first;});
+    // deb(v);
+    pq.push(v[0]);
+    rep(i,1,n){
+        while(!pq.empty() && pq.top().second < v[i].first){
+            pq.pop();
+        }
+        pq.push(v[i]);
+        mx = max(mx,(int) pq.size());
+    }
+    cout<<mx<<endl;
+}
+
+void solve2(){
+    cin>>n;
+    int ans = 0,cur = 0, a,b;
+    vector<pi> v; rep(i,0,n){ cin>>a>>b; v.pb({a,1}); v.pb({b,-1});}; //each custormer adds one when he enters and minus one one he leaves to the customers
+    sort(all(v));
+    for(pi cust: v) {
+        cur += cust.second;
+        ans = max(ans, cur);
+    }
+    cout<<ans;
 }
 
 int main(){
@@ -73,7 +123,8 @@ int main(){
 
     int t= 1;
     // cin>>t;
-    while(t--) solve();
+    // while(t--) solve();
+    while(t--) solve2();
     
 
     return 0;

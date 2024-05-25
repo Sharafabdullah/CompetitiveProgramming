@@ -57,22 +57,63 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n; string s; cin>>s;
+    int Ns=0, Ss=0,Es=0, Ws= 0;
+    for(char c: s){
+        switch (c)
+        {
+        case 'N':
+            Ns++;
+            break;
+        case 'S':
+            Ss++;
+            break;
+        case 'E':
+            Es++;
+            break;
+        case 'W':
+            Ws++;
+            break;
+        default:
+            break;
+        }
+    }
+    int y = Ns- Ss, x = Es -Ws;
+    vi R(4);
+    if(y%2==0 && x%2 ==0 && !(Ns==1 && Ss==1 && !Es && !Ws|| Es==1 && Ws==1 && !Ns && !Ss)){
+        y/=2; x/=2;
+        if(y>0) R[0] += y;
+        else if(y<0) R[2] += -y;
+        else if(y==0 && Ns>0) R[0]=1, R[2]=1;
+
+        if(x>0) R[1] += x;
+        else if (x<0) R[3]+= -x;
+        else if(x==0 && Es> 0 && R[0]==0 && R[2]==0) R[1]=1, R[3]=1;
+    }
+    else{
+        cout<<"NO"<<endl;
+        return;
+    }
+    for(char c: s){
+        int i = (c=='N'?0: (c=='E'? 1: (c=='S'? 2: 3)) );
+        if(R[i]>0) {
+            R[i]--;
+            cout<<'R';
+        } else  cout<<'H';
+    }
+    cout<<endl;
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

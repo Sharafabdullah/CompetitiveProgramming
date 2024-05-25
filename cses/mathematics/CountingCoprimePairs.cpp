@@ -22,6 +22,7 @@ typedef vector<bool>      vb;
 typedef vector<vb>        vvb;
 typedef vector<string>    vs;
 typedef vector<int>       vi;
+typedef vector<ll>       vll;
 typedef vector<double>    vd;
 typedef vector< vi >      vvi;
 
@@ -57,15 +58,73 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
-int k,n,m;
+const int N = 1e6+ 100, M = 10;
+ll k,n,m;
 
+vector<ll> primes;
+void sieve(int n) {
+    // 500ms to get primes up to 1e7 -> ~660000 primes
+    bitset<10000000> prime; prime.set();
+    for (ll p = 2; p * p<= n; p++) {
+        if (prime[p]) {
+            for (ll i = p * p; i <= n; i += p)
+                prime[i] = false;
+        }
+    }
+    for (int p = 2; p <= n; p++)
+        if (prime[p]) primes.pb(p);
+}
+
+void PrimeDivisorsRange(ll mxVal, vvi& divOf){
+    for (ll i = 2; i < mxVal; i++)
+    {
+        if(divOf[i].size()==0){
+            //this number is a prime - have not been reached before
+            divOf[i].pb(i);
+            for (int j = 2*i; j < mxVal; j+=i)
+            {
+                divOf[j].pb(i);
+            }
+        }
+    }
+}
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n;
+    //answer = all possible pairs - pairs that have gcd>1
+    // pairs with gcd>1 == num div by 2 + num div by 3 + num div by 5 ...
+                    //     - num div by 10 - # div by 6 - # div by 10 ...
+                    //     + num div by 30 + num div by 42..
+                    //* if combination of multiple of primes is odd -> add, else subtract
+    vll v(n); for(ll& i: v) cin>>i;
+    vvi divOf(N);
+    PrimeDivisorsRange(N, divOf);
+    // deb(divOf);
+    vi numOfDistinctPrimeComb(N), primesCount(N);
+    for (int i = 0; i < n; i++)
+    {
+        for(int mask = 1; mask< (1<<divOf[v[i]].size()); mask++){
+            //get all comb of prime div of v[i]
+            ll comb = 1, numOfPrimes = 0;
+            for (int j = 0; j < divOf[v[i]].size(); j++)
+            {
+                if(mask & (1<<j)){
+                    comb *= divOf[v[i]][j];
+                    numOfPrimes++;
+                }
+            }
+            numOfDistinctPrimeComb[comb]++;
+            primesCount[comb]= numOfPrimes;
+        }
+    }
+    ll ans = (n*(n-1))/2;
+    ll invalid_pairs = 0;
+    for (int i = 0; i < N; i++)
+    {
+        if(primesCount[i] % 2) invalid_pairs += numOfDistinctPrimeComb[i] * (numOfDistinctPrimeComb[i]-1) / 2;
+        else invalid_pairs -= numOfDistinctPrimeComb[i] * (numOfDistinctPrimeComb[i]-1) / 2;
+    }
+    cout<<ans - invalid_pairs<<endl;
 }
 
 int main(){

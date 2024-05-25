@@ -57,15 +57,47 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
+// vi pages, books;
+// vvi memo(1001,vi(1e5+1, -1));
+// int dp(int ind, int m){
+//     if(m<0) return -inf;
+//     if(m<=0 || ind>=n) return 0;
+//     if(memo[ind][m]!=-1) return memo[ind][m];
+//     int ans = 0;
+//     // rep(i,ind+1, n){
+//     //     if(m - books[i]>=0){
+//     //         ans = max(ans, dp(i, m - books[i]) + pages[i]);
+//     //     }
+//     // }
+//     return memo[ind][m] = max(dp(ind+1, m), dp(ind+1, m- books[ind])+pages[ind]);
+// }
 
-void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+// void solve(){
+//     cin>>n>>m;
+//     books.resize(n), pages.resize(n);
+//     rep(i,0,n) cin>>books[i];
+//     rep(i,0,n) cin>>pages[i];
+//     cout<<dp(0, m)<<endl;
+// }
+
+void solve2(){
+    cin>>n>>m;
+    vi w(n), profit(n);
+    rep(i,0,n) cin>>w[i];
+    rep(i,0,n) cin>>profit[i];
+
+    vvi tab(1005,vi(1e5+10));
+    rep(i,1,n+1){
+        rep(j, 1, m+1){
+            tab[i][j] = max(tab[i-1][j], tab[i][j-1]);
+            if(j - w[i-1] >=0 ) tab[i][j] = max(tab[i][j], tab[i-1][j-w[i-1]] + profit[i-1]);
+        }
+    }
+    // deb(tab)
+    cout<<tab[n][m]<<endl;
 }
 
 int main(){
@@ -73,7 +105,8 @@ int main(){
 
     int t= 1;
     // cin>>t;
-    while(t--) solve();
+    // while(t--) solve(); tle
+    while(t--) solve2();
     
 
     return 0;

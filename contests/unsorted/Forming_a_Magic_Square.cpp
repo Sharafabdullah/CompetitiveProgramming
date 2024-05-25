@@ -57,14 +57,29 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+int N = 3e5, M = 3;
 int k,n,m;
 
+vvi g(M, vi(M));
+vi v(N);
 
+bool valid(int i,int j, int l ){
+
+}
+
+int bt(int i, int j){
+    if(i<0  || j<0) return;
+
+    int mn = INT_MAX;
+    rep(l, 0, 9){
+        if(valid(i,j,l)){
+
+        }
+    }
+}
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    rep(i,0,3) rep(j,0,3) cin>>g[i][j];
+    bt(2,2);
     
 }
 

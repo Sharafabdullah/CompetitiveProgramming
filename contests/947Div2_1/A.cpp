@@ -22,6 +22,7 @@ typedef vector<bool>      vb;
 typedef vector<vb>        vvb;
 typedef vector<string>    vs;
 typedef vector<int>       vi;
+typedef vector<ll>       vll;
 typedef vector<double>    vd;
 typedef vector< vi >      vvi;
 
@@ -57,14 +58,22 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    cin>>n; vi a(n); for(int& i: a) cin>>i;
+    bool f= 1;
+    for (int i = 1; i < n-1; i++)
+    {
+        if(a[i]> a[i-1] && a[i]> a[i+1]) {
+            f= 0;
+        }
+    }
+    if(a[0] > a[1] && a[0]> a[n-1]) f=0;
+
+    cout<<(f?"YES":"NO")<<endl;
     
 }
 
@@ -72,7 +81,7 @@ int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

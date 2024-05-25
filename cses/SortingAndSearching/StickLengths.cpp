@@ -53,7 +53,7 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 
 
-const ll inf = 1e9+1000;
+const ll inf = 1e16;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
@@ -62,10 +62,43 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n; 
+    ll sum=0; ll mx = 0;
+    vector<int> p(n); for(auto& i: p) {cin>>i; sum+=i; mx= max(mx, (ll)i);}
+    ll lo = 0, hi = 2*mx, ans = inf, lastDiff = ans;
+
+    auto cmp = [&](ll md){
+        ll diff= 0; 
+        rep(i,0,n) diff+=abs(p[i]-md);
+        // deb(md)
+        // deb(diff)
+        ans = min(diff,ans);
+        // deb(lastDiff)
+        // cout<<endl;
+        return diff;
+    };
+    //finds the first true given by cmp
+    // cmp(hi);
+    while(lo<=hi){
+        ll md = lo + (hi-lo)/2;
+        // deb(md)
+        // deb(ans)
+        if(cmp(md)>cmp(md-1)) hi = md - 1;
+        else lo = md+1;
+    }
+    // cmp(lo);
+
+    cout<<ans<<endl;
+}
+
+void solve2(){
+    cin>>n; vi v(n); for(auto& i: v) cin>>i;
+    sort(all(v));
+    ll ans = 0;
+    rep(i,0,n){
+        ans+= abs(v[i]-v[n/2]);
+    }
+    cout<<ans<<endl;
 }
 
 int main(){
@@ -73,7 +106,8 @@ int main(){
 
     int t= 1;
     // cin>>t;
-    while(t--) solve();
+    while(t--) solve2();
+    // while(t--) solve();
     
 
     return 0;

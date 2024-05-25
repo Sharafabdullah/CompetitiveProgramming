@@ -57,22 +57,29 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    int p1,p2,p3; cin>>p1>>p2>>p3;
+    int sum = p1+p2+p3;
+    if(sum%2) cout<<-1<<endl;
+    else{
+        if(p1+p2<=p3){
+            cout<<p1+p2<<endl;
+        }
+        else{
+            cout<<sum/2<<endl;
+        }
+    }
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

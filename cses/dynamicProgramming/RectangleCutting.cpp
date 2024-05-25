@@ -57,15 +57,52 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
+// vvi memo(501, vi(501,-1));
+map<int,map<int,int>> memo;
+int dp(int n, int m){
+    if(n==m) return 0;
+    if(memo[n][m]) return memo[n][m];
+
+    int ans = inf;
+    rep(i,1,n){
+        ans = min(ans, dp(i, m) + dp(n-i,m) + 1);
+    }
+    rep(i,1,m){
+        ans= min(ans, dp(n, i) + dp(n,m-i) + 1);
+    }
+    return memo[n][m] = memo[m][n] = ans;
+}
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n>>m;
+    // cout<<dp(n,m);
+    n--, m--;
+    vvi tab(n+1, vi(m+1,inf)); 
+
+    deb(n) deb(m)
+    rep(j,0,m+1) tab[0][j] = j;
+    rep(i,0,n+1) tab[i][0] = i;
+    deb(tab)
+    rep(i,1,n+1){
+        rep(j,1,m+1){
+            // deb(i) deb(j)
+            if(i==j) tab[i][j] = 0;
+            else{
+
+                for(int w = 1; w<j; w++){
+                    tab[i][j] = min(tab[i][j], tab[i][j-w-1] + tab[i][w]+1);
+                }
+                for(int w = 1; w<i; w++){
+                    tab[i][j] = min(tab[i][j], tab[w][j] + tab[i-w-1][j]+1);
+                }
+            }
+        }
+    }
+    // deb(tab)
+    cout<<tab[n][m]<<endl;
 }
 
 int main(){

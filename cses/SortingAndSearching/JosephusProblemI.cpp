@@ -57,23 +57,71 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 2e5+1, M = 10;
 int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    cin>>n;
+    int cnt = 0;
+    if(n==1){
+        cout<<1<<' ';
+        return;
+    }
+    bitset<N> b;
+    for(int i= 1; ; i = (i+2)%n){
+        if(++cnt>n) break;
+        while(b[i]) i++;
+        b[i] = 1;
+        cout<<i+1<<' ';
+        while(b[i+1]) i++;
+    }
     
 }
 
+void solve2(){
+    cin>>n;
+    set<int> s;
+    rep(i,1,n+1) s.insert(i);
+    auto cur = s.begin(); cur++;
+    while(!s.empty()){
+        rep(i,0,2){
+            cur++;
+            if(cur==s.end()) cur = s.begin();
+        }
+        s.erase(cur);
+        cout<<*cur<<' ';
+    }
+}
+void solve3(){
+    cin>>n;
+    vi a(n); rep(i,0,n) a[i] = i+1;
+    // deb(a);
+    while(a.size()>1){
+        vi next;
+        // deb(a);
+        rep(i,0,a.size()){
+            if(i%2==0) next.pb(a[i]);
+            else cout<<a[i]<<' ';
+        }
+        // deb(next)
+        if(a.size()%2){
+            a.clear();
+            a.pb(next.back()); next.pop_back();
+            for(int i: next) a.pb(i);
+        } 
+        else a = next;
+    }
+    cout<<a[0]<<' ';
+}
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
     // cin>>t;
-    while(t--) solve();
+    while(t--) solve3();
+    // while(t--) solve2();
+    // while(t--) solve();
     
 
     return 0;

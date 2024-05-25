@@ -57,24 +57,74 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
-int k,n,m;
+const int N = 3e5, M = 10;
+ll k,n,m;
 
 
-void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+void solve(ll n){
+    // cin>>n;
+    ll ans = 0;
+    //this works in O(n)
+    for (ll i = 1; i <= n; i++)
+    {
+        ans = (ans + (n/i)*i)%mod;
+    }
+    if(n>2){
+        // ans += n*(n+1)/2 - 3;
+    }
+    deb(ans)
 }
 
+ll mpow(ll bs, ll exp) {
+    ll res = 1;
+    bs = bs % mod;
+    while (exp > 0) {
+        if (exp & 1)
+            res = (res * bs) % mod;
+        exp = exp >> 1;
+        bs = (bs * bs) % mod;
+    }
+    return res;
+}
+
+ll mul(ll a, ll b){
+    return ((a%mod)*(b%mod))%mod;
+}
+
+void solve2(){
+    cin>>n;
+    //ex: for n = 12 there are
+    // number: 1 2 3 4 5 6 7 8 9 10 11 12
+    // rep   :12 6 4 3 2 2 1 1 1 1 1 1 1 
+    //the answer is the sum of (number* rep)
+    // but notice that we could save time if we knew the number of numbers for a repition
+    // ex: 5,6 repeate two times -> they add 11* 2 to the ans
+    // we can calc the next distinct rep by: q = n/i -> i = n/q -> next i = n/q + 1 (works for every number)
+    // 11 is their sum -> can be calc O(1) if we knew the position of the prev and next distinct rep.
+    ll ans = 0;
+    for(ll i = 1, j; i<=n; i = j){
+        ll q = n/i;
+        j = n/q + 1;
+        //* mpow(2,mod-2) == mpow(2, -1) in modular arithmetic
+        ll sumToJ = (mul(j, j-1) * mpow(2, mod - 2))%mod;
+        ll sumToI = (mul(i, i-1) * mpow(2, mod-2)) % mod;
+        //* We have to add mod because sumToJ may be smaller than sumToI after mod
+        ll sum = (sumToJ - sumToI + mod)%mod; 
+        ans = (ans + mul(q, sum))%mod;
+    }
+    cout<<ans<<endl;
+}
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
     // cin>>t;
-    while(t--) solve();
-    
+    // while(t--) {
+    //     rep(i,1,10){
+    //         solve(i);
+    //     }
+    // }
+    solve2();
 
     return 0;
 }

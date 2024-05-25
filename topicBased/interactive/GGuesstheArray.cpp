@@ -57,15 +57,25 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n;
+    vi ans(n+1), h(n+1);
+    rep(i,2,n+1){
+        cout<<"? 1 "<<i<<endl;
+        cin>>h[i];
+    }
+    cout<<"? 2 3"<<endl;
+    cin>>m;
+    ans[1] = (h[2]+h[3]-m)/2;
+    rep(i,2,n+1){
+        ans[i] = h[i]- ans[1];
+    }
+    cout<<"! ";
+    rep(i,1,n+1)cout<<ans[i]<<" ";
 }
 
 int main(){

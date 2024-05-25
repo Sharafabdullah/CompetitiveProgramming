@@ -62,10 +62,18 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n; vi v(n); for(auto& i: v) cin>>i; sort(all(v));
+    // 1 2 3 5 8 20
+    //* if we can make (1-k) and consider another v[i]<=k+1 -> we can can make (1-> k + v[i])
+    //* we can make v[i]+2 by taking v[i] and andding 2 which belongs to (1,k)
+    ll smallestMake = 1;
+    rep(i,0,n){
+        if(v[i]<=smallestMake){
+            smallestMake += v[i];
+        }
+        else break;
+    }
+    cout<<smallestMake<<endl;
 }
 
 int main(){

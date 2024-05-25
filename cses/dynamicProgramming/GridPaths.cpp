@@ -57,15 +57,26 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
+vvi memo;
+vector<string> g;
 
+ll dfs(int i, int j){
+    if(i==n-1 && j==m-1) return 1;
+    if(i>= n || j>= n || g[i][j]=='*') return 0;
+    if(memo[i][j]!=-1) return memo[i][j];
+
+    return memo[i][j] = (dfs(i+1, j) + dfs(i, j+1))%mod;
+}
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n; m = n;
+    memo = vvi(n, vi(m, -1));
+    g.resize(n);
+    rep(i,0,n) cin>>g[i];
+    if(g[n-1][m-1]=='*') cout<<0<<endl;
+    else cout<<dfs(0,0);
 }
 
 int main(){

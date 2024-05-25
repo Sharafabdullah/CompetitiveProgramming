@@ -57,15 +57,39 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
+void primeFactors(int n) 
+{ 
+    while (n%2==0) { cout << 2 << " "; n>>=1; } 
+    for (int i = 3; i <= sqrt(n); i+=2)while (n % i == 0) {cout << i << " ";n = n/i;} 
+    if (n > 2) cout << n << " "; 
+} 
+
+void primeFactors(int n, vector<pi>& v) 
+{ 
+    for (ll i = 2; i*i <= n; i++){
+        if(n%i==0){
+            int c = 0;
+            while(n%i==0) n/=i, c++;
+            v.pb({i, c});
+        }
+    }
+    if (n > 1) v.pb({n,1}); 
+} 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    primeFactors(2864);
+    vector<pi> v1;
+    primeFactors(2864,v1);
+    deb(v1)
+    v1.clear();
+    primeFactors(640403945,v1);
+    deb(v1)
+    deb(2*55*3 + 8*2)
+    deb(2*3*338 + 2*16+1)
+    deb(2061*3*2)
 }
 
 int main(){

@@ -57,23 +57,69 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
+vi v;
+// vvi memo(101, vi(1e5+2, -1));
+// ll dp(int ind, int g){
+//     // deb(ind) deb(g)
+//     if(g>m || g<0 || ind >n ) return 0;
+//     if(ind==n) return 1;
+//     if(memo[g][ind] != -1) return memo[g][ind];
 
+//     if(v[ind]==0){
+//         int ans = dp(ind+1, g);
+//         if(g>1) ans = (ans + dp(ind+1, g-1))%mod;
+//         if(g<m) ans = (ans + dp(ind+1, g+1))%mod;
+//         return memo[g][ind] = ans;
+//     }
+//     else{
+//         if(abs(g-v[ind])>=2) return 0;
+//         return memo[g][ind] = dp(ind+1, v[ind]);
+//     }
+// }
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n>>m;
+    rep(i,0,n) { cin>> k; v.pb(k);}
+    // cout<<dp(0, v[0]);
 }
-
+void solve2(){
+    cin>>n>>m;
+    vvi tab(n+1, vi(m+1));
+    vector<ll> v(n); for(auto& i: v) cin>>i;
+    if(v[0]==0){
+        rep(i, 1,m+1){
+            tab[1][i] = 1;
+        }
+    } else tab[1][v[0]] = 1;
+    rep(i,2,n+1){
+        if(v[i-1]==0){
+            rep(j,1,m+1){
+                tab[i][j] = tab[i-1][j];
+                if(j-1>=1) tab[i][j] = (tab[i][j] + tab[i-1][j-1])%mod;
+                if(j+1<=m) tab[i][j] = (tab[i][j] + tab[i-1][j+1])%mod;
+            }
+        }
+        else{
+            tab[i][v[i-1]] = tab[i-1][v[i-1]];
+            if(v[i-1]-1>=1) tab[i][v[i-1]] = (tab[i][v[i-1]] + tab[i-1][v[i-1]-1])%mod;
+            if(v[i-1]+1<=m) tab[i][v[i-1]] = (tab[i][v[i-1]]+ tab[i-1][v[i-1]+1])%mod;
+        }
+        
+    }
+    int ans = 0;
+    rep(j, 0, m+1) ans= (ans +tab[n][j])%mod;
+    // deb(tab)
+    cout<<ans<<endl;
+}
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
     // cin>>t;
-    while(t--) solve();
+    // while(t--) solve();
+    while(t--) solve2();
     
 
     return 0;

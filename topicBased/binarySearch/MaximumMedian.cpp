@@ -53,18 +53,50 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 
 
 
-const ll inf = 1e9+1000;
+const ll inf = 1e11+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    cin>>n>>k;
+    ll sum = 0;
+    vi a(n); for(auto& i: a) cin>>i;
+    sort(all(a));
+    if(n==1){
+        cout<<a[0]+k<<endl;
+        return;
+    }
+
+    int half = (n+1)/2;
+    rep(i,half-1, n) sum+=a[i];
+
+    // deb(sum)
+    // deb(half)
+    // deb(a)
+    ll lo = a[half-1], hi = inf,md;
+    auto cmp = [&](ll md){
+        // deb(md)
+        // return half*md - sum > k;
+        ll s = 0;
+        rep(i, half-1, n){
+            if(a[i]<md) s+= md-a[i];
+        }
+        return s>k;
+    };
+    //finds the first true given by cmp (lo). hi is the last false
+    while(lo<=hi){
+        md = lo + (hi-lo)/2;
+        if(cmp(md)) hi = md - 1;
+        else lo = md+1;
+    }
+    // deb(hi) 
+
+    cout<<max(hi, (ll)a[half-1])<<endl;
+
     
 }
 

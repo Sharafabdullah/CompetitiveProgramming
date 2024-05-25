@@ -57,23 +57,32 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
 
-void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+ll f(ll n,ll k)
+{
+    if(n==1) return 1;
+    if(k<=(n+1)/2) 
+    {
+        if(2*k>n) return (2*k)%n;
+        else return 2*k;
+    }
+    ll temp=f(n/2,k-(n+1)/2);
+    if(n%2==1) return 2*temp+1;
+    return 2*temp-1;
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
-    while(t--) solve();
+    cin>>t;
+    while(t--){
+        cin>>n>>k;
+        cout<<f(n,k)<<endl;
+    }
     
 
     return 0;

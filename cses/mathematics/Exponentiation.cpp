@@ -57,14 +57,25 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
+
+ll mpow(ll bs, ll exp, ll mod) {
+    ll res = 1;
+    bs = bs % mod;
+    while (exp > 0) {
+        if (exp & 1)
+            res = (res * bs) % mod;
+        exp = exp >> 1;
+        bs = (bs * bs) % mod;
+    }
+    return res;
+}
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    cin>>n>>m>>k;
+    cout<<mpow(n,mpow(m,k,mod-1), mod)<<endl;
     
 }
 
@@ -72,7 +83,7 @@ int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

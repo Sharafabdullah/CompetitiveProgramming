@@ -62,18 +62,67 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    cin>>k>>n;
+    set<pi> s;
+    // vi v(n); for(auto& i: v) cin>>i;
+    s.insert({0,k});
+    while(n--){
+        cin>>m;
+        for(auto it = s.begin(); it!=s.end(); it++){
+            auto p = *it;
+            deb(p)
+            if(m>p.first && m<p.second) {
+                if(m - p.first == p.second - m){
+                    s.insert({p.first, m});
+                    s.insert({m,p.second});
+                }
+                else if((m- p.first) < (p.second - m)){
+                    s.insert({p.first, m});
+                } else s.insert({m, p.second});
+                // s.erase(p);
+            }
+        }
+        pi ans = *s.begin();
+        cout<<ans.second - ans.first<<" ";
+    }
+    cout<<endl;
     
 }
+void solve2(){
+    int x, cnt= 0;
+    cin>>x>>n;
+    set<int> lights;
+    map<int,int> len;
+    lights.insert(0); lights.insert(x);
+    len[x]++;
+    while(n--){
+        cin>>k;
+        // deb(*len.rbegin());
+        auto [it,p]  = lights.insert(k);
+        int nVal = *next(it);
+        int pVal = *prev(it);
+        len[nVal - pVal]--;
+        if(len[nVal-pVal]==0) len.erase(len.find(nVal - pVal));
+        len[k - pVal]++; len[nVal - k]++;
+        // for(auto [k,v]: len){
+        //     cout<<k<<" "<<v<<endl;
+        // }
+        // cout<<"________"<<endl;
+        cout<< (*len.rbegin()).first<<" ";
+    }
+        // deb(*len.rbegin());
+
+}
+
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
     // cin>>t;
-    while(t--) solve();
+    // while(t--) solve();
+    while(t--) solve2();
+    
     
 
     return 0;

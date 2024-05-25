@@ -62,10 +62,13 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    string s; cin>>s;
+    vi a(26);
+    for(char c: s) a[c-'a']++;
+    int odds=0;
+    for(int i: a) if(i%2) odds++;
+    if(odds==0 || odds%2) cout<<"First"<<endl;
+    else cout<<"Second"<<endl;
 }
 
 int main(){

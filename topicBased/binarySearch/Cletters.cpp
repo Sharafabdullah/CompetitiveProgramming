@@ -57,15 +57,27 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
-int k,n,m;
+const int N = 3e5, M = 10;
+ll k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n>>k;
+    vector<ll> v(n),sums(n); for(auto& i: v) {cin>>i;}
+    sums[0] = v[0];
+    rep(i,1,n) sums[i] = sums[i-1] + v[i];
+
+    while(k--){
+        cin>>m;
+        if(m<=v[0]){
+            cout<<"1 "<<m<<endl;
+        }
+        else{
+            auto it = lower_bound(all(sums), m);
+            deb(*it);
+            cout<<it- sums.B+1<<" "<<m - *(--it)<<endl;
+        }
+    }
 }
 
 int main(){

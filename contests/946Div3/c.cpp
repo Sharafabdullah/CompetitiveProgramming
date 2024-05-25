@@ -57,22 +57,68 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
+struct tuples{
+    int f, s, t;
+    tuples(int f, int s, int t): f(f), s(s), t(t){};
+    bool operator<(const tuples& right) const{
+        if(f==right.f && s==right.s) return t<right.t;
+        else if (f==right.f) return s<right.s;
+        else return f<right.f;
+    }
+};
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n; vi a(n); for(int& i: a) cin>>i;
+
+    map<tuples, int> common;
+
+    map<pi, int> s1,s2,s3;
+    rep(i, 0, n-2){
+        s1[{a[i], a[i+1]}]++;
+        s2[{a[i], a[i+2]}]++;
+        s3[{a[i+1], a[i+2]}]++;
+        common[tuples(a[i], a[i+1], a[i+2])]++;
+    }
+    ll ans = 0;
+    // for(auto [k,v]: s1){
+    //     // deb(k)
+    //     ans += (v-1);
+    // }
+    // for(auto [k,v]: s2){
+    //     // deb(k)
+    //     ans += (v-1);
+    // }
+    // for(auto [k,v]: s3){
+    //     // deb(k) deb(v)
+    //     ans += (v-1);
+    // }
+    // ll rep = 0;
+    // for(auto [tup, v]: common){
+    //     // cout<<tup.f<<" "<<tup.s<<" "<<tup.t<<endl;
+    //     // deb(v)
+    //     rep += (v-1);
+    // }
+    // cout<<ans- 3*rep<<endl;
+    for(auto [tup, f]: common){
+        int a1 = tup.f, a2= tup.s, a3= tup.t;
+        ll k = s1[{a1,a2}] - f;
+        ans += k * f;
+        k = s2[{a1,a2}] - f;
+        ans += k* f;
+        k = s3[{a2,a3}] -f;
+        ans += k* f;
+    }
+    cout<<ans/2<<endl;
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

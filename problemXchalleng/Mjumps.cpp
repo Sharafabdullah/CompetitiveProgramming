@@ -57,22 +57,28 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+int N = 1e4, M = 10;
 int k,n,m;
 
+    vi v(N);
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>k;
+    auto lo = lower_bound(all(v),k);
+    // deb((lo-v.B));
+    // deb(*lo);
+    if(*lo - k == 1) cout<<lo-v.B +1<<endl;
+    else cout<<(lo-v.B)<<endl;
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    rep(i,1,N){
+        v[i] = v[i-1]+i;
+    }
+    cin>>t;
     while(t--) solve();
     
 

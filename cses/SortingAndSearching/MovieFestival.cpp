@@ -62,10 +62,33 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n;
+    int a, b, ans = 1;
+    vector<pi> v; rep(i,0,n) {cin>>a>>b; v.pb({a,b});}
+    sort(all(v)); 
+    pi prev = v[0];
+    rep(i,1,n){
+        // deb(prev) deb(v[i])
+        if(v[i].S < prev.S) prev = v[i];
+        else if(v[i].F >= prev.S) {
+            ans++; prev = v[i];
+        }
+    }
+    cout<<ans<<endl;
+}
+
+void solve2(){
+    cin>>n; vector<pi> v(n); for(auto &[f,s]: v) cin>>f>>s;
+    sort(all(v), [](pi p1, pi p2){return p1.second<p2.second;});
+    // deb(v);
+    int endOfLastM = -1, cnt = 0;
+    rep(i,0,n){
+        if(v[i].F >= endOfLastM){
+            cnt++;
+            endOfLastM = v[i].S;
+        }
+    }
+    cout<<cnt<<endl;
 }
 
 int main(){
@@ -73,7 +96,8 @@ int main(){
 
     int t= 1;
     // cin>>t;
-    while(t--) solve();
+    // while(t--) solve();
+    while(t--) solve2();
     
 
     return 0;

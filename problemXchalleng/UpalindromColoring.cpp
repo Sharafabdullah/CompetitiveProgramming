@@ -57,23 +57,75 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    string s;
+    cin>>n>>k>>s;
+    vi freq(27);
+    for(char c: s){
+        freq[c-'a']++;
+    }
+    ll sum=0;
+    // if(n==1){
+    //     cout<<1<<endl;
+    // }
+    if(k==1){
+        bool flag = 0;
+        int largestOdd= 0;
+        for(int f: freq){
+            if(f%2) {
+                flag=1; 
+                f--;
+            }
+            sum+= f;
+        }
+        sum += flag;
+        cout<<sum<<endl;
+        return;
+    }
+    int odds=0,evens=0;
+    rep(i,0,27){
+        if(freq[i]%2) {freq[i]--;odds++;}
+        else evens++;
+        // deb(freq[i]);
+        sum+= freq[i];
+    }
+    int ans = sum/k + (evens%2? 0: odds/k) ;
+    cout<<max(ans,1)<<endl;
+}
+
+void solve2(){
+    string s;
+    cin>>n>>k>>s;
+    vi freq(27);
+    for(char c: s){
+        freq[c-'a']++;
+    }
+    ll pairs=0, odds=0;
+    rep(i,0, 27){
+        if(freq[i]%2){
+            odds++;
+            pairs += freq[i]/2;
+        }
+        else{
+            pairs += freq[i]/2;
+        }
+    }
+    deb(pairs)
+    deb(odds)
+    cout<< 2*(pairs/k) + (odds+2*(pairs%k) >= k)<<endl;
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
-    while(t--) solve();
+    cin>>t;
+    // while(t--) solve();
+    while(t--) solve2();
     
 
     return 0;

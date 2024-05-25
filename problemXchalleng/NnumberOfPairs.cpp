@@ -62,9 +62,20 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    ll ans = 0, l,r; cin>>n>>l>>r;
+    vi a(n); for(auto& i: a) cin>>i;
+    sort(all(a));
+    // deb(a);
+    rep(i,0,n){
+        auto lind = lower_bound(a.B + i+1, a.E, l-a[i]);
+        auto rind = upper_bound(a.B + i+1, a.E, r-a[i]);
+        // deb(a[i])
+        // deb(distance(lind, rind));
+        // deb(*lind) deb(*rind)
+        ans += rind - lind;
+    }
+    cout<<ans<<endl;
+    
     
 }
 
@@ -72,7 +83,7 @@ int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

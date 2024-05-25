@@ -62,9 +62,36 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    cin>>n>>m;
+    int x, ans = 1,a,b;
+    vi num(n+1), pos(n+1);
+    rep(i,1,n+1){
+        cin>>num[i];
+        pos[num[i]] = i;
+    }
+    rep(i,1,n){
+        if(pos[i]>pos[i+1]) ans++;
+    }
+    while(m--){
+        cin>>a>>b;
+        set<pi> s;
+        if(num[a]+1<=n) s.insert({num[a], num[a]+1});
+        if(num[a]-1>=1) s.insert({num[a]-1, num[a]});
+
+        if(num[b]+1<=n) s.insert({num[b], num[b]+1});
+        if(num[b]-1>=1) s.insert({num[b]-1, num[b]});
+
+        for(pi p: s){
+            if(pos[p.first]>pos[p.second]) ans--;
+        }
+        swap(num[a], num[b]);
+        pos[num[a]] = a;
+        pos[num[b]] = b;
+        for(pi p: s){
+            if(pos[p.first]>pos[p.second]) ans++;
+        }
+        cout<<ans<<endl;
+    }
     
 }
 

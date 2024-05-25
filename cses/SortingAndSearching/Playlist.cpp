@@ -62,9 +62,24 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    cin>>n;
+    // vi v(n); for(auto& i: v) cin>>i;
+    int ans = 1, mx = 1;
+    set<int> s; 
+    deque<int> q;
+    rep(i,0,n){
+        cin>>k;
+        q.push_front(k);
+        if(s.count(k)){
+            while(!q.empty() && q.back()!=k){
+                s.erase(q.back()); q.pop_back();
+            }
+            q.pop_back();
+        }
+        ans = max(ans, (int)q.size());
+        s.insert(k);
+    }
+    cout<<ans<<endl;
     
 }
 

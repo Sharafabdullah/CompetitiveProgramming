@@ -1,5 +1,11 @@
 #include <bits/stdc++.h>
+
 using namespace std;
+#include <ext/pb_ds/assoc_container.hpp> 
+#include <ext/pb_ds/tree_policy.hpp> 
+using namespace __gnu_pbds; 
+  
+#define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update> 
 
 
 #define all(v)        ((v).begin()), ((v).end())
@@ -57,22 +63,77 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n;
+    vi a(n);
+    for(int& i: a) cin>>i;
+    ordered_set s;
+    rep(i, 1, n+1) s.insert(i);
+    vi diff(n);
+    int s1 = 0, s2 =0;
+    rep(i,1,n-1){
+        diff[i] = max(a[i-1]-a[i], a[i+1]-a[i]);
+        diff[i] = max(diff[i], 0);
+        if(i%2){
+            s1+= diff[i];
+        } else s2+= diff[i];
+    }
+    deb(diff)
+    vi ans(n);
+    deb(s1) deb(s2)
+    if(s1<s2){
+        set<pi> needing;
+        for (int i = 1; i < n; i+=2)
+        {
+            needing.insert({diff[i], i});
+        }
+        for(auto [f,sec]: needing){
+            auto it = (s.find_by_order(s.size()-1));
+            ans[sec] = *it;
+            s.erase(it);
+        }
+        ans[0] = *s.begin();
+        s.erase(s.begin());
+        int j = 0;
+        for (int i = 2; i < n; i+=2)
+        {
+            ans[i] = *s.find_by_order(j); j++;
+        }
+    }
+    else{
+        set<pi> needing;
+        for (int i = 2; i < n; i+=2)
+        {
+            needing.insert({diff[i], i});
+        }
+        // sort(all(needing));
+        for(auto [f,sec]: needing){
+            auto it = (s.find_by_order(s.size()-1));
+            ans[sec] = *it;
+            s.erase(it);
+        }
+        ans[0] = *s.begin();
+        s.erase(s.begin());
+        int j = 0;
+        for (int i = 1; i < n; i+=2)
+        {
+            ans[i] = *s.find_by_order(j); j++;
+        }
+
+    }
+    deb(ans);
+    rep(i,0, n) cout<<ans[i]<<" ";
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

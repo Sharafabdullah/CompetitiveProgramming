@@ -1,6 +1,12 @@
 #include <bits/stdc++.h>
-using namespace std;
+// Including tree_order_statistics_node_update
+#include <ext/pb_ds/assoc_container.hpp> 
+#include <ext/pb_ds/tree_policy.hpp> 
+using namespace __gnu_pbds; 
+  
+#define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update> 
 
+using namespace std;
 
 #define all(v)        ((v).begin()), ((v).end())
 #define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
@@ -62,10 +68,18 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n>>k;
+    int start = 0, posToRemove = k;
+    ordered_set os;
+    rep(i,1,n+1) os.insert(i);
+    while(!os.empty()){
+        start %= os.size();
+        posToRemove =( start+k)%os.size();
+        start = posToRemove;
+        auto it = os.find_by_order(posToRemove);
+        cout<<*it<<' ';
+        os.erase(it);
+    }
 }
 
 int main(){

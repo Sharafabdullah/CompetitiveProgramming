@@ -57,22 +57,51 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
+int dst(vi& v){
+    int d = 0;
+    rep(i,1,v.size()){
+        d= max(d, v[i]- v[i-1]);
+    }
+    return d;
+}
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n;
+    vi a(n); for(int& i: a) cin>>i;
+    vvi dist(31);
+    rep(i,0, 31){
+        dist[i].pb(-1);
+    }
+    int orArr = 0;
+    rep(i,0,n) orArr |= a[i];
+    rep(i, 0, n){
+        rep(j, 0, 31){
+            if(a[i] & (1<<j)){
+                dist[j].pb(i);
+            }
+        }
+    }
+    rep(i, 0, 31){
+        dist[i].pb(n);
+    }
+    // deb(dist)
+    int ans = 1;
+    rep(i, 0, 31){
+        if(orArr & (1<<i)){
+            ans = max(ans, dst(dist[i]));
+        }
+    }
+    cout<<ans<<endl;
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

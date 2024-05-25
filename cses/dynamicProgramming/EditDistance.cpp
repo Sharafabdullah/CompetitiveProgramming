@@ -57,15 +57,24 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    string s, t; cin>>s>>t;
+    vvi tab(s.size()+1, vi(t.size()+1,inf));
+    rep(i,0,t.size()+1) tab[0][i] = i;
+    rep(j,0,s.size()+1) tab[j][0] = j;
+
+    rep(i,1,s.size()+1){
+        rep(j,1,t.size()+1){
+            if(s[i-1]==t[j-1]) tab[i][j] = tab[i-1][j-1];
+            else tab[i][j] = min(min(tab[i-1][j], tab[i][j-1]), tab[i-1][j-1]) + 1;
+        }
+    }
+    // deb(tab)
+    cout<<tab[s.size()][t.size()]<<endl;
 }
 
 int main(){

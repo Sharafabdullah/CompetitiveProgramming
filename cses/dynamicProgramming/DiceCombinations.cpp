@@ -62,10 +62,17 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n;
+    vi comb(n+1);
+    comb[0] = 1;
+    rep(i,1,n+1){
+        rep(j,1,7){
+            if(i - j >= 0){
+                comb[i] = (comb[i] + comb[i-j])%mod;
+            }
+        }
+    }
+    cout<<comb[n];
 }
 
 int main(){

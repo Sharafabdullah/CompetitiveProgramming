@@ -62,10 +62,18 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    int x, ans,a;
+    cin>>n>>x;
+    map<int,int> mp;
+    rep(i,1,n+1){
+        cin>>a;
+        if(mp.count(x-a)){
+            cout<<mp[x-a]<<" "<<i<<endl;
+            return;
+        }
+        mp[a]= i;
+    }
+    cout<<"IMPOSSIBLE"<<endl;
 }
 
 int main(){

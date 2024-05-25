@@ -57,15 +57,40 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
+vs g;
+vvb vis;
+
+void dfs(int i, int j) {
+    // deb(i) deb(j)
+    if(i<0 || j<0 || i>=n || j>=m || g[i][j] == '#') return;
+    if(vis[i][j]) return;
+    vis[i][j] = true;
+    dfs(i+1, j);
+    dfs(i-1, j);
+    dfs(i, j+1);
+    dfs(i, j-1);
+    
+}
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n>>m;
+    g.resize(n);
+    vis = vvb(n, vb(m));
+    // deb(vis)
+    rep(i,0,n) cin>>g[i];
+    int cnt = 0;
+    rep(i,0,n){
+        rep(j,0,m){
+            if(!vis[i][j] && g[i][j] == '.'){
+                cnt++;
+                dfs(i,j);
+            }
+        }
+    }
+    cout<<cnt<<endl;
 }
 
 int main(){

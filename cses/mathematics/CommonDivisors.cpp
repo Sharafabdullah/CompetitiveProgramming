@@ -57,14 +57,39 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
+void rangeDivisors(int n, vector<set<int>>& num){
+    for (int i = 1; i <= n; i++)
+    {
+        //for each number - add it to the numbers that this number divides
+        for(int j = i; j<=n; j+= i){
+            num[j].insert(i);
+        }
+     
+    }
+}
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    cin>>n; vi a(n); 
+    vi cntDiv(1e6+1);
+    for(int& i: a){ cin>>i; cntDiv[i]++;}
+    // deb(a)
+    for (int i = 1e6; i >= 1; i--)
+    {
+        // deb(i)
+        ll d= 0;
+        for (int j = i; j < cntDiv.size(); j+=i)
+        {
+            d += cntDiv[j];
+        }
+        if(d>=2){
+            cout<<i<<endl;
+            return;
+        }
+    }
+    
     
 }
 

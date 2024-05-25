@@ -62,10 +62,20 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n>>k;
+    vi coins(n); for(auto& i: coins) cin>>i;
+    sort(all(coins));
+    vi canMake(k+1, inf);
+    canMake[0] = 0;
+    rep(i,1,k+1){
+        for(int c: coins){
+            if(i-c<0) break;
+            // if(canMake[i] == -1) canMake[i] = canMake[i-c]+1;
+            canMake[i] = min(canMake[i], canMake[i-c]+1);
+        }
+    }
+    deb(canMake)
+    cout<<(canMake[k]==inf? -1: canMake[k])<<endl;
 }
 
 int main(){

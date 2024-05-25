@@ -60,20 +60,51 @@ const ll mod = 1e9 + 7;
 int N = 3e5, M = 10;
 int k,n,m;
 
-
+vector<vector<int>> memo(101, vi(1e6+1,-1));
+vi c;
+int dp(int ind, int sum){
+    // deb(make_pair(ind,sum))
+    if(sum == k) return 1;
+    if(ind>=n || sum>=k) return 0;
+    if(memo[ind][sum]!=-1) return memo[ind][sum];
+    int ans = 0;
+    rep(i, ind, n){
+        if(sum+c[i] > k) break;
+        else if(sum+c[i]==k) {ans++; break;}
+        else ans = (ans + dp(i,sum+c[i]))%mod;
+    }
+    return memo[ind][sum] = ans;
+}
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n>>k;
+    c = vi(n);
+    rep(i,0,n) cin>>c[i];
+    sort(all(c));
+    // deb(c)
+    cout<< dp(0,0)<<endl;
 }
 
+
+void solve2(){
+    cin>>n>>k;
+    vi coins(n); for(int& i: coins) cin>>i;
+    //  sort(all(coins));
+    vi dp(k+1);
+    dp[0] =1; //there is one way to create 0 sum
+    for(int c: coins){
+        rep(i,1,k+1){
+            if(i-c >= 0) dp[i] = (dp[i] + dp[i-c])%mod;
+        }
+    }
+    cout<<dp[k]<<endl;
+}
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
     // cin>>t;
-    while(t--) solve();
+    // while(t--) solve();
+    while(t--) solve2();
     
 
     return 0;

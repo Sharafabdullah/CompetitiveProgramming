@@ -62,18 +62,71 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n; vi a(n),s; for(auto& i: a) {cin>>i; s.pb(i);}
+    sort(all(s));
+    int i=0;
+    // deb(s)
+    while(i<n && a[i+1]>a[i]) i++;
+    if(i==n){
+        cout<<"yes"<<endl;
+        cout<<1<<' '<<1<<endl;
+        return;
+    }
+    ll lo = i, hi = a.size()-1;
+    while(lo<=hi){
+        ll md = lo + (hi-lo)/2;
+        if(md == 0 || a[md]>a[md-1]) hi = md - 1;
+        else lo = md+1;
+    }
+    reverse(a.B+i, a.B + lo);
+    deb(a) deb(i) deb(lo)
+    if(a==s){
+        cout<<"yes"<<endl;
+        cout<<i+1<<" "<<lo<<endl;
+    } else cout<<"no"<<endl;
 }
 
+void solve2(){
+    cin>>n; vi a(n); for(int& i: a) cin>>i;
+    vi s= a;
+    sort(all(s));
+    int l = 0, r = n-1;
+    while(l<n && s[l]==a[l]) l++;
+    while(r>=0 && s[r] == a[r]) r--;
+    // sort(a.B + l, a.E - r+1);
+    int sl = l, sr = r;
+    deb(l)
+    deb(r)
+    while(l<r){
+        swap(a[l], a[r]);
+        l++; r--;
+    }
+    deb(a)
+    if(s==a){ 
+        cout<<"yes"<<endl;
+        if(sr == -1) cout<<1<<" "<<1<<endl;
+        else cout<<sl+1<<" "<<sr+1<<endl;
+        }
+    else cout<<"no"<<endl;
+
+    ll lo = 0, hi = inf;
+    auto cmp = [&](ll md){
+        return true;
+    };
+    //finds the first true given by cmp (lo). hi is the last false
+    while(lo<=hi){
+        ll md = lo + (hi-lo)/2;
+        if(cmp(md)) hi = md - 1;
+        else lo = md+1;
+    }
+}
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
     // cin>>t;
     while(t--) solve();
+    // while(t--) solve2();
     
 
     return 0;

@@ -57,14 +57,13 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
-int k,n,m;
+const int N = 3e5, M = 10;
+double k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    cin>>n>>m;
+    cout<<max(ceil(m/2),ceil( (n + 4*m)/15))<<endl;
     
 }
 
@@ -72,7 +71,7 @@ int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

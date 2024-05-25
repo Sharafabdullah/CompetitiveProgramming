@@ -62,10 +62,15 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n;
+    vector<ll> v(n); for(ll& i: v) cin>>i;
+    ll prev = 0, mx = -inf;
+    rep(i,0,n){
+        // prev = max(0, prev);
+        mx = max(mx, v[i]+prev);
+        prev = max(0ll,prev + v[i]);
+    }
+    cout<<mx<<endl;
 }
 
 int main(){

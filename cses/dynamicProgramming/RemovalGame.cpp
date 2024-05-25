@@ -57,15 +57,31 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
+vi v(1e5+1);
 
+vvi res[2];
+ll dp(bool turn, int i, int j){
+    // deb(i) deb(j)
+    if(i>j) return 0;
+    if(i==j) {
+        return (turn?v[i]: 0);
+    }
+    // if(res[i][j][turn]!=-1) return res[i][j][turn];
+    deb(i)deb(j)
+    ll f = dp(!turn, i+1, j)+ (turn? v[i]: 0);
+    ll s = dp(!turn, i, j-1)+(turn?v[j]: 0);
+    // res[i][j][turn] = max(f, s);
+    // deb(res[i][j][turn]);
+    return max(f,s);
+}
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n;
+    rep(i,0,n) cin>>v[i];
+    // res[0] = res[1] = vvi(n+1, vi(n+1, -1));
+    cout<<dp(1,0, n-1);
 }
 
 int main(){

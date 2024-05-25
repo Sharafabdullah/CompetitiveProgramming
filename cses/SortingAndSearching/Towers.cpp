@@ -62,10 +62,58 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n; vi v(n); 
+    vector<pi> pos(n); 
+    rep(i,0,n) {
+        cin>>v[i];
+        pos[i] = {v[i], i+1};
+    }
+    sort(all(pos),greater());
+    deb(pos);
+    int ans = 1;
+    vector<bool> vis(n);
+    rep(i,0,n-1){
+        ll lo = i+1, hi = pos.size()-1;
+        auto cmp = [&](ll md){
+            return pos[md].first < pos[i].first && !vis[md];
+        };
+    //finds the first true given by cmp
+        while(lo<=hi){
+            ll md = lo + (hi-lo)/2;
+            if(cmp(md)) hi = md - 1;
+            else lo = md+1;
+        }
+        int j = lo;
+        deb(pos[i].second)
+        deb(pos[j].second)
+        // while(j<n && pos[i].first == pos[j].first) j++;
+        // while(j<n && vis[j]) j++;
+        if(j>= n || pos[i].second > pos[j].second) {
+            ans++;
+        } else if(j<n) vis[j] = 1;
+    }
+    cout<<ans<<endl;
+}
+
+void solve2(){
+    cin>>n; vi v(n); for(auto& i: v) cin>>i;
+    multiset<int> s;
+    rep(i,0,n){
+        if(s.empty()){
+            s.insert(v[i]);
+        }
+        else{
+            auto base = s.upper_bound(v[i]);
+            if(base == s.end()){
+                s.insert(v[i]);
+            }
+            else{
+                s.erase(base);
+                s.insert(v[i]);
+            }
+        }
+    }
+    cout<<s.size()<<endl;
 }
 
 int main(){
@@ -73,7 +121,8 @@ int main(){
 
     int t= 1;
     // cin>>t;
-    while(t--) solve();
+    // while(t--) solve();
+    while(t--) solve2();
     
 
     return 0;

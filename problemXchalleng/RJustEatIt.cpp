@@ -62,18 +62,59 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n;
+    vector<ll> v(n); for(ll& i: v) cin>>i;
+    ll sum=0, mx = v[0], prev = v[0],num = 1;
+    bool f = 0;
+    rep(i,0,n) sum+=v[i];
+    rep(i,1,n){
+        if(prev+v[i]>mx){
+            mx = prev+v[i];
+            num++;
+        }
+        // mx = max(mx, prev+v[i]);
+        // prev = max(prev+v[i], 0ll);
+        if(prev+v[i] <= 0){
+            f = 1;
+            prev = 0;
+        } else {prev = prev+v[i];}
+    }
+    // if(sum>mx) cout<<"YES"<<endl;
+    // else cout<<"NO"<<endl;
+    deb(num)
+    deb(mx)
+    deb(sum)
+    if(sum > mx ) cout<<"YES"<<endl;
+    else if(sum==mx && num==n && v.back()!=0) cout<<"YES"<<endl;
+    else cout<<"NO"<<endl;
+}
+
+void solve2(){
+    cin>>n;
+    ll sum = 0;
+    vi a(n);
+    bool f = 0, allpos = 1;
+    rep(i,0,n){
+        cin>>a[i];
+        sum+= a[i];
+        if(sum<=0) allpos = 0;
+    }
+    sum = 0;
+    rep(i,n,0){
+        sum+=a[i];
+        if(sum<=0) allpos= 0;
+    }
+    if(allpos) cout<<"YES"<<endl;
+    else cout<<"NO"<<endl;
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
+    // while(t--) solve2();
     
 
     return 0;

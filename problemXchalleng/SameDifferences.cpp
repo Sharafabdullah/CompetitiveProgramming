@@ -62,9 +62,35 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    cin>>n;
+    // vi v(n+1), dp(n+1);
+    // rep(i,1,n+1) cin>>v[i];
+    // // deb(v);
+    // for (int i = n; i >= 1; i--)
+    // {
+    //     int j = i+1;
+    //     while(j<=n && v[i]+j-i<=n){
+    //         if(v[j]-v[i] == j-i) {
+    //             dp[i] = dp[j] +1;
+    //             break;
+    //         }
+    //         j++;
+    //     }
+    // }
+    // ll ans = 0;
+    // rep(i,0,n+1) ans+=dp[i];
+    // cout<<ans<<endl;
+    
+    ll ans = 0;
+    vi v(n); rep(i,0,n) cin>>v[i];
+    map<int,int> mp;
+    for (int i = 0; i < n; i++)
+    {
+        ans+= mp[v[i]-i];
+        mp[v[i]-i]++;
+    }
+    // deb(mp);
+    cout<<ans<<endl;
     
 }
 
@@ -72,7 +98,7 @@ int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

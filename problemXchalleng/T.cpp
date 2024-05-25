@@ -57,14 +57,24 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    cin>>n; vi a(n); 
+    map<int,int> mp;
+    for(int& i: a) {cin>>i;mp[i]++;}
+    int mxElm= 0;
+    for(auto [k,v]: mp){
+        mxElm = max(mxElm, v);
+    }
+    if(mxElm * 2 >=n){
+        cout<< n - 2*(n-mxElm)<<endl;
+    }
+    else{
+        cout<< (n%2? 1: 0)<<endl;
+    }
     
 }
 
@@ -72,7 +82,7 @@ int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

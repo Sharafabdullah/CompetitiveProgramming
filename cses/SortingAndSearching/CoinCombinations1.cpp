@@ -62,18 +62,42 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    //* This solution is correct but gives tle
+    cin>>n>>k;
+    vi cs(n); for(int& i:cs)cin>>i;
+    vi dp(k+1);
+    dp[0] =1;
+    rep(i,0,k+1){
+        for(int c: cs){
+            if(c+i<=k){
+                dp[c+i] = (dp[i] + dp[c+i])%mod;
+            }
+        }
+    }
+    deb(dp);
+    cout<<dp[k]<<endl;
 }
 
+void solve2(){
+    cin>>n>>k;
+    vi coins(n); for(int& i: coins) cin>>i;
+    //  sort(all(coins));
+    vi dp(k+1);
+    dp[0] =1; //there is one way to create 0 sum
+    for(int c: coins){
+        rep(i,1,k+1){
+            if(i-c >= 0) dp[i] = (dp[i] + dp[i-c])%mod;
+        }
+    }
+    cout<<dp[k]<<endl;
+}
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
     // cin>>t;
     while(t--) solve();
+    
     
 
     return 0;

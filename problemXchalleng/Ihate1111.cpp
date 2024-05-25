@@ -57,22 +57,57 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
-
+vector<ll> v(12);
+bool dp(ll n){
+    deb(n)
+    if(n==0) return 1;
+    if(n<11) return 0;
+    rep(i,1,12){
+        if(n%v[i]== n) break;
+        if(dp(n%v[i])) return 1;
+    }
+    return 0;
+}
+void print(int ind, ll cur){
+    // if(cur>100) return;
+    rep(i,ind, 12){
+        cur += v[i];
+        if(cur> 10000) break;
+        print(i, cur);
+        deb(cur)
+        cur -= v[i];
+    }
+}
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n;
+    // cout<<(dp(n)? "YES":"NO")<<endl;;
+    // print(0, 0);
+    bool f = 0;
+    while(n>=0){
+        if(n%11==0) {
+            f= 1;
+            break;
+        }
+        n-= 111;
+    }
+    cout<<(f? "YES":"NO")<<endl;
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    v[0] = 1;
+    rep(i,1,12){
+        v[i] = (v[i-1]*10 + 1);
+    }
+    rep(i,6000,12000){
+        cout<<i<<" ";
+    }
+    cin>>t;
     while(t--) solve();
     
 

@@ -57,15 +57,47 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
-
-
+vi num,freq(1005);
+set<int> ans;
+map<vi,int> mp;
+void dp(vi freq, int ind, int sum){
+    ans.insert(sum);
+    if(ind>=n) return;
+    // if(mp[freq]) return;
+    mp[freq] = 1;
+    freq[num[ind]]++;
+    dp(freq,ind+1, sum+num[ind]);
+    freq[num[ind]]--;
+    dp(freq, ind+1,sum);
+}
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n; 
+    num.resize(n); for(int& i: num) cin>>i;
+    dp(freq, 1, 0);
+    dp(freq, 1, num[0]);
+    ans.erase(ans.begin());
+    cout<<ans.size()<<endl;
+    for(int i: ans) cout<<i<<" ";
+    // deb(ans)
+}
+
+void solve2(){
+    cin>>n;
+    int sum = 0;
+    vi v(n); for(int &i: v) {cin>>i;sum+=i;}
+    bitset<1000000> vis;
+    vis[0] = 1;
+    for(int num: v){
+        for(int i = sum; i>=num; i--){
+            vis[i] = vis[i] |vis[i - num];
+        }
+    }
+    cout<<vis.count()-1<<endl;
+    rep(i,1,sum+1){
+        if(vis[i]) cout<<i<<" ";
+    }
 }
 
 int main(){
@@ -73,7 +105,8 @@ int main(){
 
     int t= 1;
     // cin>>t;
-    while(t--) solve();
+    // while(t--) solve();
+    solve2();
     
 
     return 0;

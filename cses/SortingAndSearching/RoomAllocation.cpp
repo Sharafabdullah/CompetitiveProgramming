@@ -57,15 +57,50 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    cin>>n;
+    vector<pair<pi, int>> v(n);
+    rep(i,0,n){
+        cin>>v[i].F.F>>v[i].F.S;
+        v[i].S = i;
+    }
+    sort(all(v)); //sort by arrival, then by departure
+    priority_queue<pi, vector<pi>, greater<pi>> pq; //min heap (departure, index)
+    vi ans(n,-1);
+    int roomId = 1;
+    rep(i,0,n){
+        // deb(ans)
+        // deb(v[i].S)
+        if(pq.empty()){
+
+            ans[v[i].S] = roomId;
+            pq.push({v[i].F.S, roomId});
+            roomId++;
+            continue;
+        }
+        if( pq.top().F < v[i].F.F){
+            //if the least dep time is lesser than what we want to allocat now
+            auto [dep, ind] = pq.top(); pq.pop();
+            // deb(dep) deb(ind)
+            ans[v[i].S] = ind;
+            pq.push({v[i].F.S, ind});
+        }
+        else{
+            ans[v[i].S] = roomId;
+            pq.push({v[i].F.S, roomId});
+            roomId++;
+        }
+    }
+    // deb(pq.top())
     
+    cout<<roomId - 1<<endl;
+    rep(i,0,n){
+        cout<<ans[i]<<" ";
+    }
 }
 
 int main(){

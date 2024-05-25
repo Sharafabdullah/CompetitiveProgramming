@@ -60,19 +60,40 @@ const ll mod = 1e9 + 7;
 int N = 3e5, M = 10;
 int k,n,m;
 
+vvi g(M);
+vi v(N);
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    // cin>>n>>k; 
+    // vi a(n), s(n), f(n);
+    // rep(i,0,n) {cin>>a[i]; s[i]=a[i];}
+    // sort(all(s));
+    // rep(i,0,n){
+    //     int ind = lower_bound(all(s), a[i])- s.B;
+    //     while(ind+1<n && i+1<n&& s[ind + 1]== a[i+1]){
+    //         i++; ind++; 
+    //         f[i] = f[i-1]+1;
+    //     }
+    // }
+    // // deb(f);
+    // int cnt =0;
+    // rep(i,1,n){
+    //     if(i==n-1 || f[i]>f[i+1]) cnt+=f[i];
+    // }
+    // // deb(cnt);
+    // cout<<(cnt >= (n-k)? "YES":"NO")<<endl;
+
+    cin>>n>>k;
+    vector<pi> v(n); rep(i,0,n) {cin>>v[i].first; v[i].second =i;} sort(all(v));
+    int cnt = 1; rep(i,1,n) if(v[i].second- 1 != v[i-1].second) cnt++;
+    cout<< (cnt>k? "NO":"YES")<<endl;
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

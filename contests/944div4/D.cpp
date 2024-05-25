@@ -62,17 +62,27 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    string s;
+    cin>>s;
+    bool t = 0;
+    int ans = 1;
+    rep(i,1,s.length()){
+        // deb(s[i])
+        if(s[i]!=s[i-1]) ans++;
+        if(!t && s[i]=='1' && s[i-1]=='0'){
+            t=1;
+            ans--;
+        }
+
+    }
+    cout<<ans<<endl;
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

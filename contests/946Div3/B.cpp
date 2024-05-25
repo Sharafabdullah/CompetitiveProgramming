@@ -57,22 +57,43 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    string s, r;
+    cin>>n; 
+    cin>>s;
+    // deb(s);
+     vb taken(26);
+     for(char c: s){
+        // deb(c)
+        if(!taken[c-'a']){
+            r.pb(c); taken[c-'a']=1;
+        }
+     }
+    sort(all(r));
+    // deb(s)
+    // deb(r)
+    map<char,char> mp;
+    rep(i,0, r.size()/2+1){
+        // deb(r[i]) deb(r[r.size()-i-1])
+        mp[r[i]] = r[r.size()-i-1];
+        mp[r[r.size()-i-1]] = r[i];
+    }
+    // deb(mp)
+    for(char& c: s){
+        c = mp[c];
+    }
+    cout<<s<<endl;
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

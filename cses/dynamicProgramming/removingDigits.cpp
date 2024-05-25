@@ -57,15 +57,48 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
+vi memo(1e6+1);
+int dp(int n){
+    // deb(n);
+    if(n==0) return 0;
+    if(memo[n]!=0) return memo[n];
+
+    vi s;
+    int x = n;
+    while(x){
+        s.pb(x%10);
+        x/=10;
+    }
+    // deb(s);
+    int ans = inf;
+    for(int i: s){
+        if(i!=0) ans = min(ans, dp(n-i));
+    }
+    return memo[n] = ans + 1;
+}
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    cin>>n;
+    vi tab(1e6+1, inf);
+    // cout<<dp(n)<<endl; //* stack overflow
+    tab[0] = 0;
+    rep(i,1,10) tab[i] = 1;
     
+    rep(i, 10, n+1){
+        vi s;
+        int x = i;
+        while(x){
+            s.pb(x%10);
+            x/=10;
+        }
+        for(int n: s){
+            if(n!=0) tab[i] = min(tab[i], tab[i-n]+1);
+        }
+    }
+    cout<<tab[n]<<endl;
 }
 
 int main(){

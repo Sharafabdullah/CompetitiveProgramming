@@ -62,17 +62,31 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n; vi v(n); for(auto& i: v) cin>>i;
+    map<int, deque<int>> mp;
+    rep(i,0,n){
+        if(mp.count(v[i]/4)==0) mp[v[i]/4] = deque<int>();
+        mp[v[i]/4].push_back(i);
+    }
+    sort(all(v));
+    vi ans(n);
+    rep(i,0,n){
+        // deb(mp[v[i]/4].front());
+        ans[ mp[v[i]/4].front()] = v[i];
+        mp[v[i]/4].pop_front();
+    }
+    // deb(ans);
+    rep(i,0,n){
+        cout<<ans[i]<<' ';
+    }
+    cout<<endl;
 }
 
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

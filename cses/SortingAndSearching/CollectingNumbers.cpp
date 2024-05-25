@@ -62,10 +62,15 @@ int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n; vi v(n); for(auto& i: v) cin>>i;
+    int ans = 1;
+    set<int> s;
+    s.insert(v[0]);
+    rep(i,1,n){
+        if(s.count(v[i]+1)) ans++;
+        s.insert(v[i]);
+    }
+    cout<<ans<<endl;
 }
 
 int main(){

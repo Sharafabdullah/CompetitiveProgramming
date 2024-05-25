@@ -57,15 +57,27 @@ const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
-    
+    cin>>n;
+    vi a(n); for(auto& i: a) cin>>i;
+    sort(all(a));
+    int q; cin>>q;
+    while(q--){
+        cin>>k;
+        if(k<a[0]){
+            cout<<0<<endl;
+        }
+        else{
+        auto it = upper_bound(all(a), k);
+        cout<<it- a.B<<endl;
+            
+        }
+
+    }
 }
 
 int main(){
