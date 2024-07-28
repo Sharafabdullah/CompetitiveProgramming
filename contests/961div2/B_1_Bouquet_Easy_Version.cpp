@@ -1,0 +1,203 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+#define all(v)        ((v).begin()), ((v).end())
+#define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
+#define pb            push_back
+#define ppb           pop_back
+#define F             first
+#define S             second
+#define B             begin()
+#define E             end()
+#define clr(x)        memset(x,0,sizeof(x))
+#define endl          '\n'
+#define coutfloat(n,d)     cout << fixed << setprecision(d) << n << endl
+#define FASTIO ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)
+
+
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double   ld;
+typedef pair<int, int> pi;
+typedef vector<bool>      vb;
+typedef vector<vb>        vvb;
+typedef vector<string>    vs;
+typedef vector<int>       vi;
+typedef vector<ll>       vll;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+
+
+#ifndef ONLINE_JUDGE
+#define deb(x) cerr << #x <<" "; _print(x); cerr << endl;
+#else
+#define deb(x)
+#endif
+
+void _print(ll t) {cerr << t;}
+void _print(int t) {cerr << t;}
+void _print(string t) {cerr << t;}
+void _print(char t) {cerr << t;}
+void _print(ld t) {cerr << t;}
+void _print(double t) {cerr << t;}
+void _print(ull t) {cerr << t;}
+
+template <class T, class V> void _print(pair <T, V> p);
+template <class T> void _print(vector <T> v);
+template <class T> void _print(set <T> v);
+template <class T, class V> void _print(map <T, V> v);
+template <class T> void _print(multiset <T> v);
+template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.F); cerr << ","; _print(p.S); cerr << "}";}
+template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
+
+const int dx[] = {0,0,1,-1};
+const int dy[] = {1,-1,0,0};
+
+const ll inf = 1e9+1000;
+const double eps = (1e-8);
+const ll mod = 1e9 + 7;
+
+const int N = 3e5, M = 10;
+ll k,n,m;
+
+
+void solve(){
+    cin>>n>>m;
+    vll a(n); rep(i,0,n) cin>>a[i];
+    sort(all(a));
+    ll ans = 0,sum = 0;
+    int p = a[0],j=0,c, i = 0;
+    while(j<n && a[j]==p) {sum+=a[j]; j++;}
+    while(j<n){
+        if(a[j]==c) {sum+=a[j]; j++;}
+        else{
+            if(p==c-1 || p == c || p==c+1) {
+                ans = max(sum, ans);
+            }
+            while(i< n && a[i]!=c) i++;
+            p = c;
+            c = a[j];
+            j++;
+        }
+    }
+    cout<<ans<<endl;
+    
+    
+}
+
+void solve2(){
+    cin>>n>>m;
+    vll a(n); rep(i,0,n) cin>>a[i];
+    sort(all(a));
+    ll sum = 0, ans = 0;
+    int i = 0, j = 0;
+    while(j<n && i<n){
+        while(sum>m){
+            sum-=a[i];
+            i++;
+        }
+        if(j<n){
+            sum+=a[j];
+            j++;
+        }
+
+        if(abs(a[i]-a[j])<=1){
+            ans= max(sum, ans);
+        }
+        else{
+            i = j;
+            sum = 0;
+        }
+    }
+    cout<<ans<<endl;
+}
+
+void solve3(){
+    cin>>n>>m;
+    vll a(n); rep(i,0,n )cin>>a[i];
+    sort(all(a));
+    ll ans = 0, sum = 0;
+    int p = 0, c = 0;
+    while(c<n){
+        while(a[c]==a[p]) {
+            sum+=a[c];
+            c++;
+        }
+        while(a[c]==a[c+1]){
+            sum+=a[c];
+            c++;
+        }
+        while(p<c){
+            
+        }
+        p = c+1; c = c+1;
+    }
+    
+}
+
+void solve4(){
+    cin>>n>>m;
+    vll a(n); rep(i,0,n) cin>>a[i];
+    sort(all(a));
+    vll unique;
+    map<ll, int> freq;
+    unique.pb(a[0]);
+    freq[a[0]]++;
+    rep(i,1,n){
+        freq[a[i]]++;
+        if(a[i]!=a[i-1]) unique.pb(a[i]);
+    }
+    ll ans = 0;
+    rep(i,0,n-1){
+        if(abs(a[i]-a[i+1])<=1){
+            ll f1 = freq[a[i]], f2 = freq[a[i+1]];
+            ll mx1 = min(m/a[i], (ll)freq[a[i]]), mx2= min(m/a[i+1], (ll)freq[a[i+1]]);
+            ans = max(ans, mx1*a[i]);
+            ans = max(ans, mx2*a[i+1]);
+            if(mx2 + a[i]<=m) ans = max(ans, mx2 + a[i]);
+
+        }
+
+    }
+    cout<<ans<<endl;
+}
+void solve5(){
+    cin>>n>>m;
+    vll a(n); rep(i,0,n )cin>>a[i];
+    sort(all(a));
+    ll ans = 0, sum = 0;
+    int p = 0, c = 0;
+    while(c<n){
+        sum+=a[c];
+        if(a[c]<=m) ans = max(ans, a[c]);
+        while(abs(a[c]-a[p])>1){
+            sum-=a[p];
+            p++;
+        }
+        if(sum>m){
+            sum-=a[p];
+            p++;
+        }
+        c++;
+        if(sum<=m) ans = max(ans, sum);
+    }
+    cout<<ans<<endl;
+    
+}
+int main(){
+    FASTIO;
+
+    int t= 1;
+    cin>>t;
+    // while(t--) solve();
+    // while(t--) solve2();
+    // while(t--) solve3();
+    // while(t--) solve4();
+    while(t--) solve5();
+
+    return 0;
+}

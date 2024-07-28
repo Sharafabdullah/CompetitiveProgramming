@@ -60,11 +60,26 @@ const ll mod = 1e9 + 7;
 int N = 3e5, M = 10;
 int k,n,m;
 
+using namespace chrono; steady_clock::time_point tstt,endt;
+void start(){tstt = steady_clock::now();}
+void end(int i = 0){
+    if(!i) cout<<"Time: "<<duration_cast<microseconds>(steady_clock::now()- tstt).count()<<char(230)<<"s"<<endl;
+    else cout<<"Time: "<<duration_cast<milliseconds>(steady_clock::now()- tstt).count()<<"ms"<<endl;}
+
 
 void solve(){
-    vi v = {1,2,3,4,5,6};
-    reverse(v.B, v.B+3);
-    deb(v)
+    start(); 
+    for (int i = 0; i < 1e8; i++)
+    {
+        
+    }
+    end(1);
+    start(); 
+    for (ll i = 0; i < 1e8; i++)
+    {
+        
+    }
+    end(1);
     
 }
 

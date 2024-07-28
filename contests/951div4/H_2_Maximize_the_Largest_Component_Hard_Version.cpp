@@ -1,0 +1,209 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+#define all(v)        ((v).begin()), ((v).end())
+#define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
+#define pb            push_back
+#define ppb           pop_back
+#define F             first
+#define S             second
+#define B             begin()
+#define E             end()
+#define clr(x)        memset(x,0,sizeof(x))
+#define endl          '\n'
+
+
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double   ld;
+typedef pair<int, int> pi;
+typedef vector<bool>      vb;
+typedef vector<vb>        vvb;
+typedef vector<string>    vs;
+typedef vector<int>       vi;
+typedef vector<ll>       vll;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+
+
+#ifndef ONLINE_JUDGE
+#define deb(x) cerr << #x <<" "; _print(x); cerr << endl;
+#else
+#define deb(x)
+#endif
+
+void _print(ll t) {cerr << t;}
+void _print(int t) {cerr << t;}
+void _print(string t) {cerr << t;}
+void _print(char t) {cerr << t;}
+void _print(ld t) {cerr << t;}
+void _print(double t) {cerr << t;}
+void _print(ull t) {cerr << t;}
+
+template <class T, class V> void _print(pair <T, V> p);
+template <class T> void _print(vector <T> v);
+template <class T> void _print(set <T> v);
+template <class T, class V> void _print(map <T, V> v);
+template <class T> void _print(multiset <T> v);
+template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.F); cerr << ","; _print(p.S); cerr << "}";}
+template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
+
+
+
+const ll inf = 1e9+1000;
+const double eps = (1e-8);
+const ll mod = 1e9 + 7;
+
+const int N = 1e6+1, M = 10;
+int k,n,m;
+int curI, curJ;
+vb visR, visC;
+vector<vb> vis;
+vvi comp;
+vector<string> g(N);
+void dfs( int i, int j, int& sz, int num){
+    if(i<0 || i>=n || j>=m || j<0 || vis[i][j] || g[i][j]!='#') return;
+    vis[i][j] = 1;
+    sz++;
+    comp[i][j] = num;
+    dfs(i+1, j, sz, num);
+    dfs(i-1, j, sz, num);
+    dfs(i, j+1, sz, num);
+    dfs(i, j-1, sz, num);
+};
+void solve(){
+    cin>>n>>m;
+    // vector<string> g(n);
+    // g = vector<string>(n);
+    rep(i,0,n) cin>>g[i];
+    comp = vvi(n, vi(m,-1));
+    vis = vector<vb>(n, vb(m));
+    int ans = 0, num = 1;
+    unordered_map<int,int> mp;
+    rep(i,0,n){
+        rep(j,0,m){
+            if(g[i][j]=='#' && !vis[i][j]){
+                int sz = 0;
+                // deb(i) deb(j)
+                // dfs(i,j, sz, num);
+                queue<pi> q;
+                q.push({i,j});
+                while(!q.empty()){
+                    auto [ci, cc] = q.front(); q.pop();
+                    vis[ci][cc] = 1;
+                    sz++;
+                    comp[ci][cc]= num;
+                    // if(ci + 1<n && g[ci+1][cc]=='#' && !vis[ci+1][cc]) q.push({ci+1, cc});
+                    // if(cc + 1<m && g[ci][cc+1]=='#' && !vis[ci][cc+1]) q.push({ci, cc+1});
+                    // if(ci -1>=0 && g[ci-1][cc]=='#' && !vis[ci-1][cc]) q.push({ci-1, cc});
+                    // if(cc - 1>=0 && g[ci][cc-1]=='#' && !vis[ci][cc-1]) q.push({ci, cc-1});
+                    if (ci + 1 < n && g[ci + 1][cc] == '#' && !vis[ci + 1][cc]) {
+                        q.push({ci + 1, cc});
+                        vis[ci + 1][cc] = true;  // Mark as visited
+                    }
+                    if (cc + 1 < m && g[ci][cc + 1] == '#' && !vis[ci][cc + 1]) {
+                        q.push({ci, cc + 1});
+                        vis[ci][cc + 1] = true;  // Mark as visited
+                    }
+                    if (ci - 1 >= 0 && g[ci - 1][cc] == '#' && !vis[ci - 1][cc]) {
+                        q.push({ci - 1, cc});
+                        vis[ci - 1][cc] = true;  // Mark as visited
+                    }
+                    if (cc - 1 >= 0 && g[ci][cc - 1] == '#' && !vis[ci][cc - 1]) {
+                        q.push({ci, cc - 1});
+                        vis[ci][cc - 1] = true;  // Mark as visited
+                    }
+                }
+                mp[num] = sz;
+                num++;
+            }
+        }
+    }
+    // deb(comp)
+    // deb(mp)
+    vector<pair<int, unordered_set<int>>> ansR, ansC;
+    // vector<pair<int, unordered_set<int>>> ansC;
+    rep(i,0,n){
+        int cur = 0;
+        unordered_set<int> s;
+        rep(j,0,m){
+            if(comp[i][j]==-1) cur++;
+            if(!s.count(comp[i][j])){
+                cur += mp[comp[i][j]];
+                s.insert(comp[i][j]);
+            }
+            if(i+1<n && !s.count(comp[i+1][j])){
+                cur += mp[comp[i+1][j]];
+                s.insert(comp[i+1][j]);
+            }
+            if(i>0 && !s.count(comp[i-1][j])){
+                cur += mp[comp[i-1][j]];
+                s.insert(comp[i-1][j]);
+            }
+        }
+        ansR.pb({cur, s});
+        // ans = max(ans, cur);
+    }
+
+    rep(j,0,m){
+        int cur = 0;
+        unordered_set<int> s;
+        rep(i,0,n){
+            if(comp[i][j]==-1) cur++;
+            if(!s.count(comp[i][j])){
+                cur+=mp[comp[i][j]];
+                s.insert(comp[i][j]);
+            }
+            if(j+1<m && !s.count(comp[i][j+1])){
+                cur += mp[comp[i][j+1]];
+                s.insert(comp[i][j+1]);
+            }
+            if(j>0 && !s.count(comp[i][j-1])){
+                cur += mp[comp[i][j-1]];
+                s.insert(comp[i][j-1]);
+            }
+        }
+        ansC.pb({cur, s});
+        // ans = max(ans, cur);
+    }
+ 
+
+    // deb(ansR)
+    // deb(ansC)
+    rep(i,0,n){
+        pair<int, unordered_set<int>> cr = ansR[i];
+        rep(j,0,m){
+            pair<int, unordered_set<int>> cc = ansC[j];
+            // unordered_set<int> rp;
+            int cur = ansC[j].first + ansR[i].first;
+            for(int e: ansR[i].second){
+                if(e==-1) continue;
+                if(ansC[j].second.count(e)){
+                    // rp.emplace(e);
+                    cur -= mp[e];
+                }
+            }
+            // deb(rp)
+            if(g[i][j]=='.') cur--;
+            ans = max(cur, ans);
+        }
+    }
+    cout<<ans<<endl;
+}
+    
+
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+
+    int t= 1;
+    cin>>t;
+    while(t--) solve();
+    
+
+    return 0;
+}

@@ -12,7 +12,7 @@ using namespace std;
 #define B             begin()
 #define E             end()
 #define clr(x)        memset(x,0,sizeof(x))
-
+#define endl          '\n'
 
 typedef long long ll;
 typedef unsigned long long ull;
@@ -22,6 +22,7 @@ typedef vector<bool>      vb;
 typedef vector<vb>        vvb;
 typedef vector<string>    vs;
 typedef vector<int>       vi;
+typedef vector<ll>       vll;
 typedef vector<double>    vd;
 typedef vector< vi >      vvi;
 
@@ -84,12 +85,41 @@ void solve(){
     cout<<dp(1,0, n-1);
 }
 
+void solve2(){
+    //* Maximize the difference between 1st and sec players
+    //* dp[i][j] = max difference we can achieve if I started at interval i to j 
+    //* == max(Ai - dp[i+1][j], Ai - dp[i][j-1]) we have to go through i in descending order
+    //* there's a minus because increasing d[i][j-1] will increase other player score
+
+    //* s1 -s2 = dp[]
+    //* s1+ s2 = sum -> s1 = (sum + dp)/2
+    cin>>n;
+    vector<vll> dp(n, vll(n));
+    ll sum = 0;
+    vll v(n); 
+    rep(i,0,n){
+        cin>>v[i];
+        dp[i][i] = v[i];
+        sum += v[i];
+    }
+    for (int i = n-1; i>=0; i--)
+    {
+        for (int j = i+1; j < n; j++)
+        {
+            dp[i][j] = max(v[i]- dp[i+1][j], v[j] - dp[i][j-1]);
+        }
+        
+    }
+    cout<<(sum + dp[0][n-1])/2<<endl;
+}
+
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
     int t= 1;
     // cin>>t;
-    while(t--) solve();
+    // while(t--) solve();
+    solve2();
     
 
     return 0;

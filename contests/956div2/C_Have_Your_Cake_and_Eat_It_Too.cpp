@@ -1,0 +1,168 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+#define all(v)        ((v).begin()), ((v).end())
+#define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
+#define pb            push_back
+#define ppb           pop_back
+#define F             first
+#define S             second
+#define B             begin()
+#define E             end()
+#define clr(x)        memset(x,0,sizeof(x))
+#define endl          '\n'
+#define coutfloat(n,d)     cout << fixed << setprecision(d) << n << endl
+#define FASTIO ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)
+
+
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double   ld;
+typedef pair<int, int> pi;
+typedef vector<bool>      vb;
+typedef vector<vb>        vvb;
+typedef vector<string>    vs;
+typedef vector<int>       vi;
+typedef vector<ll>       vll;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+
+
+#ifndef ONLINE_JUDGE
+#define deb(x) cerr << #x <<" "; _print(x); cerr << endl;
+#else
+#define deb(x)
+#endif
+
+void _print(ll t) {cerr << t;}
+void _print(int t) {cerr << t;}
+void _print(string t) {cerr << t;}
+void _print(char t) {cerr << t;}
+void _print(ld t) {cerr << t;}
+void _print(double t) {cerr << t;}
+void _print(ull t) {cerr << t;}
+
+template <class T, class V> void _print(pair <T, V> p);
+template <class T> void _print(vector <T> v);
+template <class T> void _print(set <T> v);
+template <class T, class V> void _print(map <T, V> v);
+template <class T> void _print(multiset <T> v);
+template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.F); cerr << ","; _print(p.S); cerr << "}";}
+template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
+
+const int dx[] = {0,0,1,-1};
+const int dy[] = {1,-1,0,0};
+
+const ll inf = 1e9+1000;
+const double eps = (1e-8);
+const ll mod = 1e9 + 7;
+
+const int N = 3e5, M = 10;
+int k,n,m;
+
+vector<pi> winning;
+void won(int x2, int y2){
+    winning.pb({1,x2});
+    winning.pb({x2+1,y2});
+    winning.pb({y2+1,n});
+    // cout<<1<<" "<<x2<<" "<<x2+1<<" "<<y2<<" "<<y2+1<<" "<<n<<endl;
+}
+void solve(){
+    cin>>n;
+    ll sum = 0;
+    vll a(n), b(n), c(n), pa(n+1), pb(n+1), pc(n+1);
+    winning.clear();
+    rep(i,0,n) cin>>a[i];
+    rep(i,0,n) cin>>b[i];
+    rep(i,0,n) {cin>>c[i]; sum+=c[i];}
+    rep(i,1,n+1){
+        pa[i] = pa[i-1] + a[i-1];
+        pb[i] = pb[i-1] + b[i-1];
+        pc[i] = pc[i-1] + c[i-1];
+    }
+    vector<pi> ans;
+    // ll need = sum/3 + (sum%3==0? 0: 1);
+    ll need = (sum+2)/3;
+    
+    auto t = [](ll need, vll& pa, vll& pb, vll& pc){
+        bool can = 0;
+        auto it = lower_bound(all(pa), need);
+        if(it!=pa.end()){
+            int ind = it - pa.begin();
+            it = lower_bound(all(pb), need + pb[ind]);
+            if(it!=pb.end()){
+                int ind2 = it - pb.begin();
+                if(pc[n]-pc[ind2]>=need){
+                    won(ind, ind2);
+                    can = 1;
+                }
+            }
+        }
+        return can;
+    };
+
+    auto printA = [](int x1, int x2, int y1, int y2, int z1, int z2){
+        cout<<x1<<" "<<x2<<" "<<y1<<" "<<y2<<" "<<z1<<" "<<z2<<endl; 
+    };
+    
+    if(t(need, pa, pb, pc)){
+        auto [x1, x2]= winning[0];
+        auto [y1, y2]= winning[1];
+        auto [z1, z2]= winning[2];
+        printA(x1,x2,y1,y2,z1,z2);
+        return;
+    }
+    if(t(need, pa, pc, pb) ){
+        auto [x1, x2]= winning[0];
+        auto [y1, y2]= winning[2];
+        auto [z1, z2]= winning[1];
+        printA(x1,x2,y1,y2,z1,z2);
+        return;
+    }
+    if(t(need, pb, pa, pc)){
+        auto [x1, x2]= winning[1];
+        auto [y1, y2]= winning[0];
+        auto [z1, z2]= winning[2];
+        printA(x1,x2,y1,y2,z1,z2);
+        return;
+    }
+    
+    if(t(need, pb, pc, pa)){
+        auto [x1, x2]= winning[2];
+        auto [y1, y2]= winning[0];
+        auto [z1, z2]= winning[1];
+        printA(x1,x2,y1,y2,z1,z2);
+        return;
+    }
+    if(t(need, pc, pa,pb)){
+        auto [x1, x2]= winning[1];
+        auto [y1, y2]= winning[2];
+        auto [z1, z2]= winning[0];
+        printA(x1,x2,y1,y2,z1,z2);
+        return;
+    }
+    if(t(need, pc, pb,pa)){
+        auto [x1, x2]= winning[2];
+        auto [y1, y2]= winning[1];
+        auto [z1, z2]= winning[0];
+        printA(x1,x2,y1,y2,z1,z2);
+        return;
+    } 
+    cout<<-1<<endl;
+
+}
+
+int main(){
+    FASTIO;
+
+    int t= 1;
+    cin>>t;
+    while(t--) solve();
+    
+
+    return 0;
+}

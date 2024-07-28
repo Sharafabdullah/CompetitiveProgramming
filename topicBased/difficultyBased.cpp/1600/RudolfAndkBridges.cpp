@@ -1,0 +1,184 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+#define all(v)        ((v).begin()), ((v).end())
+#define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
+#define pb            push_back
+#define ppb           pop_back
+#define F             first
+#define S             second
+#define B             begin()
+#define E             end()
+#define clr(x)        memset(x,0,sizeof(x))
+#define endl          '\n'
+
+
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double   ld;
+typedef pair<int, int> pi;
+typedef vector<bool>      vb;
+typedef vector<vb>        vvb;
+typedef vector<string>    vs;
+typedef vector<int>       vi;
+typedef vector<ll>       vll;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+
+
+#ifndef ONLINE_JUDGE
+#define deb(x) cerr << #x <<" "; _print(x); cerr << endl;
+#else
+#define deb(x)
+#endif
+
+void _print(ll t) {cerr << t;}
+void _print(int t) {cerr << t;}
+void _print(string t) {cerr << t;}
+void _print(char t) {cerr << t;}
+void _print(ld t) {cerr << t;}
+void _print(double t) {cerr << t;}
+void _print(ull t) {cerr << t;}
+
+template <class T, class V> void _print(pair <T, V> p);
+template <class T> void _print(vector <T> v);
+template <class T> void _print(set <T> v);
+template <class T, class V> void _print(map <T, V> v);
+template <class T> void _print(multiset <T> v);
+template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.F); cerr << ","; _print(p.S); cerr << "}";}
+template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
+
+
+
+const ll inf = 1e9+1000;
+const double eps = (1e-8);
+const ll mod = 1e9 + 7;
+
+const int N = 3e5, M = 10;
+ll k,n,m,d;
+
+
+
+class MinSegmentTree {
+private:
+    int n; 
+    vll tree;
+
+    void build(int v, int tl, int tr, vll& arr) {
+        if (tl == tr) {
+            tree[v] = arr[tl];
+        } else {
+            int tm = (tl + tr) / 2;
+            build(2 * v, tl, tm, arr);
+            build(2 * v + 1, tm + 1, tr, arr);
+            tree[v] = min(tree[2 * v], tree[2 * v + 1]);
+        }
+    }
+
+    void update(int v, int tl, int tr, int pos, long long new_val) {
+        if (tl == tr) {
+            tree[v] = new_val;
+        } else {
+            int tm = (tl + tr) / 2;
+            if (pos <= tm)
+                update(2 * v, tl, tm, pos, new_val);
+            else
+                update(2 * v + 1, tm + 1, tr, pos, new_val);
+            tree[v] = min(tree[2 * v], tree[2 * v + 1]);
+        }
+    }
+
+public:
+    MinSegmentTree(vll& input) {
+        n = input.size();
+        tree.resize(4 * n);
+        build(1, 0, n - 1, input); 
+    }
+
+    ll query(int v, int tl, int tr, int l, int r) {
+        if (l > r) return LLONG_MAX; // Empty range
+        if (l == tl && r == tr) return tree[v]; // Fully covered range
+        int tm = (tl + tr) / 2;
+        return min(query(2 * v, tl, tm, l, min(r, tm)),
+                   query(2 * v + 1, tm + 1, tr, max(l, tm + 1), r));
+    }
+
+    ll query(int l, int r) {
+        return query(1, 0, n - 1, max(l, 0), min(r, n - 1));
+    }
+
+    void update(int pos, ll new_val) {
+        update(1, 0, n - 1, pos, new_val);
+    }
+
+    void print() {
+        deb(tree)
+    }
+};
+
+ll find(vll& a){
+    vll dp(m);
+    dp[0]=1; 
+    MinSegmentTree sg(dp);
+    multiset<ll> ms = {1};
+    rep(i,1,m){
+        // dp[i][0] = dp[i][1] = inf;
+        //* method 1: tle
+        // for (ll j = 1; j <=d+1; j++)
+        // {
+        //     if(i-j<0) break;
+        //     dp[i][1] = min(dp[i][1], a[i]+1+dp[i-j][1]);
+        // }
+
+        //*method 2: 
+        // dp[i][1] = *ms.begin() + a[i] + 1;
+        // if (i - d - 1 >= 0)
+        //     ms.erase(ms.find((dp[i - d - 1][1])));
+        // ms.insert(dp[i][1]);
+
+        //*method 3:
+        dp[i] = sg.query(i-d-1, i-1) + a[i]+1;
+        sg.update(i, dp[i]);
+    }
+    // deb(dp)
+    return dp[m-1];
+}
+
+void solve(){
+    ll  cur =0, ans = LONG_LONG_MAX;
+    cin>>n>>m>>k>>d;
+    vector<vll> a(n, vll(m));
+    rep(i,0,n){
+        rep(j,0,m){
+            cin>>a[i][j];
+        }
+    }
+    vll tmp;
+    rep(i,0,n){
+        tmp.pb(find(a[i]));
+    }
+    // deb(tmp)
+    rep(i,0,tmp.size()){
+
+        cur += tmp[i];
+        if(i>=k) cur-=tmp[i-k];
+        // deb(cur)
+        if(i>=k-1)ans = min(cur, ans);
+    }
+    cout<<ans<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+
+    int t= 1;
+    cin>>t;
+    while(t--) solve();
+    
+
+    return 0;
+}

@@ -1,0 +1,204 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+#define all(v)        ((v).begin()), ((v).end())
+#define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
+#define pb            push_back
+#define ppb           pop_back
+#define F             first
+#define S             second
+#define B             begin()
+#define E             end()
+#define clr(x)        memset(x,0,sizeof(x))
+#define endl          '\n'
+
+
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double   ld;
+typedef pair<int, int> pi;
+typedef vector<bool>      vb;
+typedef vector<vb>        vvb;
+typedef vector<string>    vs;
+typedef vector<int>       vi;
+typedef vector<ll>       vll;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+
+
+#ifndef ONLINE_JUDGE
+#define deb(x) cerr << #x <<" "; _print(x); cerr << endl;
+#else
+#define deb(x)
+#endif
+
+void _print(ll t) {cerr << t;}
+void _print(int t) {cerr << t;}
+void _print(string t) {cerr << t;}
+void _print(char t) {cerr << t;}
+void _print(ld t) {cerr << t;}
+void _print(double t) {cerr << t;}
+void _print(ull t) {cerr << t;}
+
+template <class T, class V> void _print(pair <T, V> p);
+template <class T> void _print(vector <T> v);
+template <class T> void _print(set <T> v);
+template <class T, class V> void _print(map <T, V> v);
+template <class T> void _print(multiset <T> v);
+template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.F); cerr << ","; _print(p.S); cerr << "}";}
+template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
+
+const int dx[] = {0,0,1,-1};
+const int dy[] = {1,-1,0,0};
+
+const ll inf = 1e9+1000;
+const double eps = (1e-8);
+const ll mod = 1e9 + 7;
+
+const int N = 3e5, M = 10;
+int k,n,m;
+
+
+void solve(){
+    cin>>n>>k;
+    int a,b; 
+    set<int> s;
+    rep(i,0,k){
+        cin>>a;
+        s.insert(a);
+    }
+    vvi g(n+1);
+    rep(i,0,n-1){
+        cin>>a>>b;
+        g[a].pb(b); g[b].pb(a);
+    }
+    if(k==1){
+        cout<<0<<endl;
+        return;
+    }
+    vi parent(n+1,-1), f(n+1);
+
+    queue<int> q;
+    for(int i: s){
+        q.push(i);
+    }
+    int d = 1;
+    int cnt = q.size();
+    s.clear();
+    set<int> next;
+    while(!q.empty()){
+        int cur = q.front(); q.pop();
+        cnt--;
+        deb(cur) 
+        deb(parent[cur])
+        deb(d)
+        f[cur] = d;
+        for(int ch: g[cur]){
+            if(ch == parent[cur] || next.count(ch)) continue;
+            parent[ch] = cur; 
+            // f[ch] = d;
+            next.insert(ch);
+            q.push(ch);
+        }
+        if(!cnt){
+
+            cnt = q.size();
+            deb(cnt) 
+            s.clear();
+            s = next;
+            next.clear();
+            // deb(d)
+            d++;
+        }
+    }
+    deb(f)
+    cout<<*min_element(f.begin()+1, f.end())<<endl;
+}
+
+void solve2(){
+    cin>>n>>k;
+    int a,b;
+    vvi g(n+1);
+    set<int> labeled; rep(i,0,k){ cin>>a; labeled.insert(a);}
+    rep(i,0,n-1){
+        cin>>a>>b;
+        g[a].pb(b);
+        g[b].pb(a);
+    }
+    queue<int> q;
+    if(k==1){
+        cout<<0<<endl;
+        return;
+    }
+    q.push(*labeled.begin());
+    deb(*labeled.begin())
+    int cnt = 1,furthest = -1;;
+    int d = 0;
+    bool f = 0;
+    vb vis(n+1);
+    vis[*labeled.begin()] = 1;
+    while(!q.empty()){
+        int cur = q.front(); q.pop();
+        cnt--;
+        deb(cur);
+        deb(d)
+        if(labeled.count(cur) && !f){
+            f = 1;
+            deb(cur)
+            furthest = cur;
+        }
+        for(int ch: g[cur]){
+            if(vis[ch]) continue;
+            vis[ch] = 1;
+            q.push(ch);
+            
+        }
+        if(!cnt){
+            cnt = q.size();
+            d++;
+            f = 0;
+        }
+    }
+    deb(furthest)
+    q.push(furthest);
+    d = 0, cnt =1, f = 0;
+    vis.assign(n, 0);
+    vis[furthest] = 1;
+    while(!q.empty()){
+        int cur = q.front(); q.pop();
+        if(labeled.count(cur)&&!f){
+            furthest = d;
+            f= 1;
+        }
+        for(int ch: g[cur]){
+            if(vis[ch]) continue;
+            vis[ch] = 1;
+            q.push(ch);
+        }
+        cnt--;
+        if(!cnt){
+            cnt = q.size();
+            d++;
+            f= 0;
+        }
+    }
+    deb(furthest)
+    
+    cout<< (furthest+1)/2<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+
+    int t= 1;
+    cin>>t;
+    // while(t--) solve();
+    while(t--) solve2();
+    
+
+    return 0;
+}

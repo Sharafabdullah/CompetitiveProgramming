@@ -270,6 +270,70 @@ void phiProg(){
     // deb(checkPhi(100));
 
 }
+std::vector<int> MobiusFunction(int n) {
+    std::vector<int> mu(n + 1, 1); // Initialize Möbius function values to 1
+    std::vector<int> primes;
+    std::vector<bool> is_prime(n + 1, true); // Sieve of Eratosthenes
+    
+    mu[0] = 0; // By convention, mu(0) is 0
+    
+    for (int i = 2; i <= n; ++i) {
+        if (is_prime[i]) {
+            primes.push_back(i);
+            mu[i] = -1; // i is a prime number
+        }
+        for (size_t j = 0; j < primes.size() && i * primes[j] <= n; ++j) {
+            int k = i * primes[j];
+            is_prime[k] = false;
+            if (i % primes[j] == 0) {
+                mu[k] = 0; // k has a squared prime factor
+                break;
+            } else {
+                mu[k] = -mu[i]; // k is a product of i and a prime
+            }
+        }
+    }
+    
+    return mu;
+}
+
+int mobius(int n) {
+    if (n == 1) return 1; // μ(1) is 1
+    int primeCount = 0; // Count of distinct prime factors
+    // Check for each prime factor from 2 up to sqrt(n)
+    for (int p = 2; p * p <= n; ++p) {
+        if (n % p == 0) {
+            // p is a prime factor of n
+            if (n % (p * p) == 0) {
+                return 0; // n has a squared prime factor
+            }
+            while (n % p == 0) {
+                n /= p; // Remove all occurrences of p
+            }
+            primeCount++;
+        }
+    }
+    // If n is greater than 1, it is a prime factor larger than sqrt(n)
+    if (n > 1) {
+        primeCount++;
+    }
+    // If the number of distinct prime factors is even, return 1
+    // If it is odd, return -1
+    return (primeCount % 2 == 0) ? 1 : -1;
+}
+
+void mobiusFunction(){
+    //free square -> no square div it - doesn't have repeated primes - don't have prime with power greater than one
+    //mob(not free) = 0
+    //mob(free) -> if n has odd num of primes: -1 (all primes are -1), if even: 1
+    n = 1000;
+    vi v = MobiusFunction(1000);
+    rep(i,1,n){
+        if(mobius(i)!=v[i]) {cout<<"error"<<endl; break;}
+    }
+}
+
+
 int main(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
@@ -277,6 +341,7 @@ int main(){
     // cin>>t;
     // while(t--) solve();
     // arrayMultGCD();
-    phiProg();
+    // phiProg();
+    mobiusFunction();
     return 0;
 }
