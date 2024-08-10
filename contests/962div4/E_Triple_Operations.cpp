@@ -6,12 +6,14 @@ using namespace std;
 #define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
 #define pb            push_back
 #define ppb           pop_back
-#define sz(x)         ((int)(x).size())
 #define F             first
 #define S             second
 #define B             begin()
 #define E             end()
 #define clr(x)        memset(x,0,sizeof(x))
+#define endl          '\n'
+#define coutfloat(n,d)     cout << fixed << setprecision(d) << n << endl
+#define FASTIO ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)
 
 
 typedef long long ll;
@@ -22,6 +24,7 @@ typedef vector<bool>      vb;
 typedef vector<vb>        vvb;
 typedef vector<string>    vs;
 typedef vector<int>       vi;
+typedef vector<ll>       vll;
 typedef vector<double>    vd;
 typedef vector< vi >      vvi;
 
@@ -51,83 +54,59 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-
+const int dx[] = {0,0,1,-1};
+const int dy[] = {1,-1,0,0};
 
 const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 2e5+100, M = 10;
 int k,n,m;
 
-struct SegTree{
-    #define L (2*node + 1)
-    #define R (2*node + 2)
-    #define md ((l+r)/2)
-private:
-    vi seg;
-    ll skip = inf,sz = 1;
-    ll merge(ll x, ll y){
-        return min(x, y);
-    }
-    void build(int l, int r, int node, vi& org){
-        if(l==r){ seg[node]=org[l]; return;}
-
-        build(l, md, L, org);
-        build(md+1, r, R, org);
-        seg[node] =merge( seg[L] , seg[R]);
-    }
-
-    void update(int l, int r, int node, ll val, int ind){
-        if(l==r){
-            seg[node] = val;
-            return;
-        }
-
-        if(ind<=md) update(l, md, L, val, ind);
-        else update(md+1, r, R, val, ind);
-        
-        seg[node] = merge(seg[L], seg[R]);
-    }
-
-    ll query(int l, int r, int node, int lq, int rq){
-        if(r<lq || l > rq) return skip;
-        if(l>=lq && r<=rq) return seg[node];
-
-        return merge(query(l, md, L, lq,rq), query(md+1, r, R, lq,rq));
-    }
-
-public:
-    SegTree(vi& arr){
-        int n = arr.size();
-        while(sz<n) sz*=2;
-        seg = vi(sz*2,skip);
-        build(0, sz-1, 0, arr);
-    }
-    
-    void update(int ind, ll val){
-        update(0, sz-1, 0, val, ind);
-    }
-
-    ll query(int l, int r){
-        return query(0, sz-1, 0, l, r);
-    }
-#undef L
-#undef R
-#undef md
-};
+ll powers[N], psum[N];
 
 
 void solve(){
+    int l,r; cin>>l>>r;
+    int ans =0;
+    bool f = 1;
+    int st = l;
+    int cnt = 0;
+    while(st>0){
+        st/=3;
+        cnt++;
+    }
+    ans = cnt*2;
+    deb(psum[l])
+    deb(psum[r])
+    deb(powers[r])
+    deb(cnt)
+    cout<<ans + psum[r] - psum[l]<<endl;
     
     
 }
 
 int main(){
-    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-
+    FASTIO;
+    // powers.pb(1);
+    powers[0] = 0;
+    powers[1] = 1;
+    ll last = 1;
+    for (int i = 2; i < N; i++)
+    {
+        powers[i] = powers[i-1];
+        if(i==3*last){ powers[i]++; last = i;}
+    }
+    for (int i = 1; i < N; i++)
+    {
+        psum[i] = psum[i-1] + powers[i];
+    }
+    
+    deb(powers[27])
+    deb(powers[28])
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

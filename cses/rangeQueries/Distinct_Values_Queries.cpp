@@ -6,12 +6,14 @@ using namespace std;
 #define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
 #define pb            push_back
 #define ppb           pop_back
-#define sz(x)         ((int)(x).size())
 #define F             first
 #define S             second
 #define B             begin()
 #define E             end()
 #define clr(x)        memset(x,0,sizeof(x))
+#define endl          '\n'
+#define coutfloat(n,d)     cout << fixed << setprecision(d) << n << endl
+#define FASTIO ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)
 
 
 typedef long long ll;
@@ -22,6 +24,7 @@ typedef vector<bool>      vb;
 typedef vector<vb>        vvb;
 typedef vector<string>    vs;
 typedef vector<int>       vi;
+typedef vector<ll>       vll;
 typedef vector<double>    vd;
 typedef vector< vi >      vvi;
 
@@ -51,27 +54,29 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-
+const int dx[] = {0,0,1,-1};
+const int dy[] = {1,-1,0,0};
 
 const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 2e3, M = 10;
 int k,n,m;
 
-struct SegTree{
+template <class T> struct SegmentTree{
     #define L (2*node + 1)
     #define R (2*node + 2)
     #define md ((l+r)/2)
 private:
-    vi seg;
-    ll skip = inf,sz = 1;
-    ll merge(ll x, ll y){
-        return min(x, y);
+    vector<T> seg;
+    T skip = 0;
+    int sz = 1;
+    T merge(T x, T y){
+        return x + y;
     }
     void build(int l, int r, int node, vi& org){
-        if(l==r){ seg[node]=org[l]; return;}
+        if(l==r){ if(l<org.size()) seg[node]=org[l]; return;}
 
         build(l, md, L, org);
         build(md+1, r, R, org);
@@ -90,7 +95,7 @@ private:
         seg[node] = merge(seg[L], seg[R]);
     }
 
-    ll query(int l, int r, int node, int lq, int rq){
+    T query(int l, int r, int node, int lq, int rq){
         if(r<lq || l > rq) return skip;
         if(l>=lq && r<=rq) return seg[node];
 
@@ -98,11 +103,15 @@ private:
     }
 
 public:
-    SegTree(vi& arr){
-        int n = arr.size();
-        while(sz<n) sz*=2;
-        seg = vi(sz*2,skip);
+    SegmentTree(vi& arr){
+        while(sz<(int)arr.size()) sz*=2;
+        seg = vector<T>(sz*2,skip);
         build(0, sz-1, 0, arr);
+    }
+    SegmentTree(int n){
+        while(sz<n) sz*=2;
+        seg = vector<T>(sz*2,skip);
+        // build(0, sz-1, 0, arr);
     }
     
     void update(int ind, ll val){
@@ -117,14 +126,48 @@ public:
 #undef md
 };
 
-
+struct Node{
+    int l,r,ind, ans;
+    Node(int l, int r, int ind): l(l), r(r), ind(ind), ans(0){};
+    bool operator<(const Node& other){
+        return r < other.r;
+    }
+};
 void solve(){
-    
-    
+    int q;
+    cin>>n>>q;
+    vi a(n); rep(i,0,n) cin>>a[i];
+    map<int,int> lastSeen; //last seen
+    vector<Node> queries;
+    rep(i,0,q){
+        int a,b; cin>>a>>b;a--,b--;
+        queries.pb(Node(a,b,i));
+    }
+    sort(all(queries));
+    int curq = 0;
+    SegmentTree<int> sg(n);
+
+    rep(i,0,n){
+        if(lastSeen.count(a[i])){
+            sg.update(lastSeen[a[i]], 0);
+        }
+        lastSeen[a[i]]=i;
+        sg.update(i, 1);
+        while(curq < q && queries[curq].r == i){
+            queries[curq].ans = sg.query(queries[curq].l, queries[curq].r);
+            curq++;
+        }
+    }
+    sort(all(queries), [&](const Node& lhs, const Node& rhs){
+        return lhs.ind < rhs.ind;
+    });
+    for(auto q: queries){
+        cout<<q.ans<<endl;
+    }
 }
 
 int main(){
-    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    FASTIO;
 
     int t= 1;
     // cin>>t;

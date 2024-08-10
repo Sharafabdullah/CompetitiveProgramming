@@ -6,12 +6,14 @@ using namespace std;
 #define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
 #define pb            push_back
 #define ppb           pop_back
-#define sz(x)         ((int)(x).size())
 #define F             first
 #define S             second
 #define B             begin()
 #define E             end()
 #define clr(x)        memset(x,0,sizeof(x))
+#define endl          '\n'
+#define coutfloat(n,d)     cout << fixed << setprecision(d) << n << endl
+#define FASTIO ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)
 
 
 typedef long long ll;
@@ -22,6 +24,7 @@ typedef vector<bool>      vb;
 typedef vector<vb>        vvb;
 typedef vector<string>    vs;
 typedef vector<int>       vi;
+typedef vector<ll>       vll;
 typedef vector<double>    vd;
 typedef vector< vi >      vvi;
 
@@ -51,83 +54,112 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-
+const int dx[] = {0,0,1,-1};
+const int dy[] = {1,-1,0,0};
 
 const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
-struct SegTree{
-    #define L (2*node + 1)
-    #define R (2*node + 2)
-    #define md ((l+r)/2)
-private:
-    vi seg;
-    ll skip = inf,sz = 1;
-    ll merge(ll x, ll y){
-        return min(x, y);
+vi g[N];
+ll lazy[N]={}, val[N]={};
+int lvl[N]={}, par[N]={};
+bool bad[N] = {};
+
+ll mpow(ll bs, ll exp) {
+    ll res = 1;
+    bs = bs;
+    while (exp > 0) {
+        if (exp & 1)
+            res = (res * bs);
+        exp = exp >> 1;
+        bs = (bs * bs);
     }
-    void build(int l, int r, int node, vi& org){
-        if(l==r){ seg[node]=org[l]; return;}
+    return res;
+}
 
-        build(l, md, L, org);
-        build(md+1, r, R, org);
-        seg[node] =merge( seg[L] , seg[R]);
+void propagate(int ind){
+    if(lazy[ind]==0) return;
+    val[ind] += lazy[ind];
+    for(int ch: g[ind]){
+        if(lvl[ch]<lvl[ind]) continue;
+        lazy[ch] += (lazy[ind]/2);
+    }
+    lazy[ind]=0;
+}
+
+ll get_helper(int ind, int dst){
+    vi path;
+    int cnt = 0;
+    int tmp = ind;
+    path.pb(ind);
+    while(ind !=par[ind] && cnt<30){
+        cnt++;
+        ind = par[ind];
+        path.pb(ind);
+    }
+    reverse(all(path));
+    for(int i: path){
+        propagate(i);
+    }
+    // deb(path)
+
+    return val[tmp];
+}
+ll get(int ind){
+    return get_helper(ind, 0);
+}
+
+void dfs(int cur, int d){
+    lvl[cur] = d;
+    for(int ch: g[cur]){
+        if(lvl[ch]!=0 || par[ch]!=0) continue;
+        par[ch] = cur;
+        dfs(ch, d+1);
     }
 
-    void update(int l, int r, int node, ll val, int ind){
-        if(l==r){
-            seg[node] = val;
-            return;
-        }
-
-        if(ind<=md) update(l, md, L, val, ind);
-        else update(md+1, r, R, val, ind);
-        
-        seg[node] = merge(seg[L], seg[R]);
-    }
-
-    ll query(int l, int r, int node, int lq, int rq){
-        if(r<lq || l > rq) return skip;
-        if(l>=lq && r<=rq) return seg[node];
-
-        return merge(query(l, md, L, lq,rq), query(md+1, r, R, lq,rq));
-    }
-
-public:
-    SegTree(vi& arr){
-        int n = arr.size();
-        while(sz<n) sz*=2;
-        seg = vi(sz*2,skip);
-        build(0, sz-1, 0, arr);
-    }
-    
-    void update(int ind, ll val){
-        update(0, sz-1, 0, val, ind);
-    }
-
-    ll query(int l, int r){
-        return query(0, sz-1, 0, l, r);
-    }
-#undef L
-#undef R
-#undef md
-};
-
-
+}
 void solve(){
-    
-    
+    cin>>n;
+    rep(i,0,n+10) {lazy[i] = 0; val[i] =0; lvl[i] = 0;par[i]= 0;}
+    rep(i,0,n-1){
+        int a,b; cin>>a>>b;
+        g[a].pb(b);
+        g[b].pb(a);
+    }
+    lvl[1] = 1;
+    par[1]=1;
+    dfs(1,1);
+    int q,ind; cin>>q;
+    while(q--){
+        int op; cin>>op;
+        if(op==1){
+            cin>>ind>>k;
+            lazy[ind]+=k;
+            propagate(ind);
+        }
+        else{
+            cin>>ind;
+            cout<<get(ind)<<endl;
+        }
+    }
+    // rep(i,1,n+1) cout<<lazy[i]<<" ";
+    // cout<<endl;
+    // rep(i,1,n+1) cout<<lvl[i]<<" ";
+    // cout<<endl;
+    // rep(i,1,n+1) cout<<val[i]<<" ";
+    // cout<<endl;
+    rep(i,0,n+10) g[i].clear();
 }
 
 int main(){
-    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    FASTIO;
 
     int t= 1;
-    // cin>>t;
+    cin>>t;
     while(t--) solve();
     
 

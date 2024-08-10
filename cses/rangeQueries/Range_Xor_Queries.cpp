@@ -6,12 +6,14 @@ using namespace std;
 #define rep(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
 #define pb            push_back
 #define ppb           pop_back
-#define sz(x)         ((int)(x).size())
 #define F             first
 #define S             second
 #define B             begin()
 #define E             end()
 #define clr(x)        memset(x,0,sizeof(x))
+#define endl          '\n'
+#define coutfloat(n,d)     cout << fixed << setprecision(d) << n << endl
+#define FASTIO ios::sync_with_stdio(0),cin.tie(0),cout.tie(0)
 
 
 typedef long long ll;
@@ -22,6 +24,7 @@ typedef vector<bool>      vb;
 typedef vector<vb>        vvb;
 typedef vector<string>    vs;
 typedef vector<int>       vi;
+typedef vector<ll>       vll;
 typedef vector<double>    vd;
 typedef vector< vi >      vvi;
 
@@ -51,13 +54,14 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 
-
+const int dx[] = {0,0,1,-1};
+const int dy[] = {1,-1,0,0};
 
 const ll inf = 1e9+1000;
 const double eps = (1e-8);
 const ll mod = 1e9 + 7;
 
-int N = 3e5, M = 10;
+const int N = 3e5, M = 10;
 int k,n,m;
 
 struct SegTree{
@@ -66,9 +70,9 @@ struct SegTree{
     #define md ((l+r)/2)
 private:
     vi seg;
-    ll skip = inf,sz = 1;
+    ll skip = 0,sz = 1;
     ll merge(ll x, ll y){
-        return min(x, y);
+        return x ^ y;
     }
     void build(int l, int r, int node, vi& org){
         if(l==r){ seg[node]=org[l]; return;}
@@ -90,11 +94,11 @@ private:
         seg[node] = merge(seg[L], seg[R]);
     }
 
-    ll query(int l, int r, int node, int lq, int rq){
+    ll get(int l, int r, int node, int lq, int rq){
         if(r<lq || l > rq) return skip;
         if(l>=lq && r<=rq) return seg[node];
 
-        return merge(query(l, md, L, lq,rq), query(md+1, r, R, lq,rq));
+        return merge(get(l, md, L, lq,rq), get(md+1, r, R, lq,rq));
     }
 
 public:
@@ -109,22 +113,27 @@ public:
         update(0, sz-1, 0, val, ind);
     }
 
-    ll query(int l, int r){
-        return query(0, sz-1, 0, l, r);
+    ll get(int l, int r){
+        return get(0, sz-1, 0, l, r);
     }
 #undef L
 #undef R
 #undef md
 };
 
-
 void solve(){
-    
+    cin>>n>>m;
+    vi a(n); rep(i,0,n) cin>>a[i];
+    SegTree sg(a);
+    while(m--){
+        int a,b; cin>>a>>b;a--,b--;
+        cout<<sg.get(a,b)<<endl;
+    }
     
 }
 
 int main(){
-    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    FASTIO;
 
     int t= 1;
     // cin>>t;
