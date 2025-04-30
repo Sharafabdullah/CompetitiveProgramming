@@ -86,7 +86,7 @@ void dfs(int x, int y,string cur){
             cur.pop_back();
         }
     }
-    vis[x][y]=0;
+    // vis[x][y]=0;
 }
 
 void solve(){
@@ -180,8 +180,8 @@ int main(){
 
     int t= 1;
     // cin>>t;
-    // while(t--) solve();
-    solve2();
+    while(t--) solve();
+    // solve2();
 
     
 

@@ -1,0 +1,101 @@
+STAR - Situtation , Task, Action, Result
+- A simple solution to the 
+
+
+
+LEADERSHIP PRINCIPLES:
+
+1- COSTUMER OBSSESSION: obssessed with costumers while keeping an eye on the competiton -> 
+- I spent extra time on presentation to make it easier to understand the subject
+- Focused on writing documenations for the end users 
+
+
+2- OWNERSHIP - long term benefits for the whole company (never say that's not my business)
+
+- I learned graphic design and helped to create the visual identity of the project
+- Took the inititive to dive deep to help my teammates complete the task on time
+- There was a uni project I made sure to reiterate the report to add additional deliverables that the doctor has asked for
+
+- long term thinking: while creating an assembler, I noticed that my teammate has structured the solution without safeguard handling of the features that we will need in the future, like advanced token handling and addtional instruction set. So I suggested a more robust way to fullfill the requirement by creating a suit of modules that help expand the current project
+
+3- INVENT AND SIMPLIFY: Leaders seek out new ideas from everywhere. They are externally aware, look for new ways to serve customers, and simplify processes. They value innovation and avoid over-complication.
+
+- While working on creating test modules for a project. I noticed that the language of choice (verilog) didn't seem to work seamlessly with our workflow and created additional overhead and markup. So I reiterated core funcitons using a more advanced testing language (system verilog)
+
+- Automating: While working on the testing process, we had to rely on older software for compatibility issues. However, older GUIs slowed our workflow. So I created a suite of batch scripts and executables to compile and test using the CLI and it signficantly streamlined our workflow.
+
+- In a competitive programming contest, I thought of a complex solution using custom data structures like persistent segment trees. I then rethought about it and found a solution using builtin data structures in the c++ standard library. As a result, implementing the solution took us signficantly fewer lines of code and time, saving us time to allocate for other problems and advancing our ranking in the competition
+
+
+4- ARE RIGHT - A LOT: Use good judgment, ask questions, and learn from mistakes
+
+- While working on uni project. I thought that we had plenty suggested adding extra features to the program that exceed the scope of the project to go over the expectations. My teammate suggested on focusing on main functionality of the project then we can go with the extra work - I didn't push my idea. Turns out my fried was correct and we met the deadline delivering all the required deliverables. 
+
+5- LEARN AND BE CURIOUS: 
+
+- For my automating tasks, I have not created any scripts for automation before that nor did I know about how to write batch and use the filesystem modules in c++. As I said before, learning these then implementing them saved us 10's of hours of work
+
+- A professor of mine is always delighted when he hears my questions about the subject. Sometimes he would even stop the lecture and ask me 
+"There is another interesting problem in this that you didn't ask about," then tells a hint and asks: "what do you think now?"
+
+6- Hire and develop the best: 
+
+- A friend of mine was struggling to understand a subject "physics" no matter what the professor or book he studies from. So I broke down difficult subject for him in both abstract and practical manner to help him bridge the gaps he had. As a result, he passed the class with a grade he was pleased with.
+
+7- INSIST ON THE HIGHEST STANDARDS: 
+
+- Whenever I'm gathering a team for a competition or a project, I always make it clear that we are a team that's going for the best, we not participating for the sake of being their. So I usually get myself surrounded by highly motivated individuals and getting top ranks in almost every competition that I participate in.
+
+- While creating an assembler, I noticed that my teammate has structured the solution without safeguard handling of the features that we will need in the future, like advanced token handling and addtional instruction set. So I suggested a more robust way to fullfill the requirement by creating a suit of modules that help expand the current project
+
+8- THINK BIG: 
+Don’t just do small, safe things. Amazon leaders dream big, plan big, and build big ideas. They think about how their work can help more people or make a bigger impact.
+
+- I stood for making the competition created by our team at ACM (half extreme) for all the arabs not just jordanian university students. And it had a large success of participating more than a 140 teams in the 12-hour competition that we conducted online.
+
+9- BIAS FOR ACTION: 
+taking action fast
+
+- One of the team members had a task of creating an integration for a vga screen using the FPGA. He couldn't do it on time so I suggested created a mini-version so his setup and work would go without presenting 
+
+10- FRUGALITY:
+- do more with less resources
+
+- In the design phase of production, a processor design that I created required more than the available logic gates on the targetted FPGA. The design was copmlex and almost impossible to simplify using standard methods, so I invented a custom solution reduced the required hw to 80% of what is available at maximum. We thus had a great feet in terms of performance over all other participating teams and had the admiration of the judges for the innovative solution.
+
+11- EARN TRUST: 
+Leaders build trust by being honest, respectful, and dependable. They listen to others, admit mistakes, and do what they say they’ll do.
+
+12- DIVE DEEP: 
+ask questions to fully understand problems
+
+- Instead of giving up on a problem that I kept getting wrong answers on some testcases, although I knew the solution of it. I reserved time to reiterate the problem line by line and found a small bug that caused a fail edge case to occur
+
+
+13- HAVE BACKBONE: DISAGREE AND COMMIT: 
+once a decision is made, they commit to it fully, even if it wasn’t their idea
+
+- in a programming contest, I suggested a solution to a hard problem. My friend showed a testcase where my algorithm would fail to solve. I understood his idea and what is required to solve the problem, which wasn't time feasible for the competition. We ended saving time moving on from that problems to other problems that we did manage to solve on time.
+
+
+14- DELIVERS RESULTS: 
+No excuses. They focus on what matters, meet deadlines, and overcome obstacles to deliver the best results possible
+
+- I have had a weekly meeting 10 minutes after an exam. I was at the univ So when I finished the exam I walked fast to the library and got a key to a private room where I held the online meeting.
+
+
+15- Strive to be Earth’s Best Employer
+
+What it means:
+Amazon wants to be a place where people feel safe, included, and motivated. Leaders create positive, respectful environments where people can do their best work
+
+
+16- Success and Scale Bring Broad Responsibility
+Amazon leaders think about the impact of their work on the world. As their influence grows, they act responsibly — for customers, employees, communities, and the planet.
+
+
+
+Questions to ask: 
+- How everyday work in Amazon feels like? Do you feel like you're actually learning, building experience and giving value or do you feel like day to day work is somewhat repetitive non-chanllenging tasks 
+
+
